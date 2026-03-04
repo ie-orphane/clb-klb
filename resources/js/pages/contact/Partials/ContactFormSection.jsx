@@ -1,5 +1,6 @@
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { Facebook, Instagram, Youtube, Linkedin } from 'lucide-react';
+import TransText from '@/components/TransText';
 
 const socialLinks = [
     { name: 'Facebook', href: '#', icon: Facebook },
@@ -8,10 +9,15 @@ const socialLinks = [
     { name: 'LinkedIn', href: '#', icon: Linkedin },
 ];
 
-const introText =
-    'Le Club des Diplômées de Belgique au Maroc (CLB) est votre point de contact pour toutes les activités, partenariats ou envies de rejoindre notre réseau. N\'hésitez pas à nous écrire.';
+const introText = {
+    fr: "Le Club des Diplômées de Belgique au Maroc (CLB) est votre point de contact pour toutes les activités, partenariats ou envies de rejoindre notre réseau. N'hésitez pas à nous écrire.",
+    ar: "نادي خريجات بلجيكا في المغرب (CLB) هو نقطة اتصالك لجميع الأنشطة والشراكات أو الرغبة في الانضمام إلى شبكتنا. لا تتردد في الكتابة إلينا.",
+    nl: "De Club van Belgische Afgestudeerden in Marokko (CLB) is uw contactpunt voor activiteiten, partnerschappen of om bij ons netwerk te komen. Schrijf ons gerust.",
+};
 
 export default function ContactFormSection() {
+    const { props } = usePage();
+    const locale = props.locale && ['fr', 'ar', 'nl'].includes(props.locale) ? props.locale : 'fr';
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         email: '',
@@ -32,14 +38,16 @@ export default function ContactFormSection() {
                 <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
                     <div>
                         <p className="text-sm font-semibold uppercase tracking-wider text-alpha">
-                            RESTONS CONNECTÉS
+                            <TransText fr="RESTONS CONNECTÉS" ar="لنبق على تواصل" nl="BLIJF VERBONDEN" as="span" />
                         </p>
                         <h2 className="mt-2 text-3xl font-bold text-foreground lg:text-4xl">
-                            Contactez-Nous
+                            <TransText fr="Contactez-Nous" ar="اتصل بنا" nl="Contacteer ons" as="span" />
                         </h2>
-                        <p className="mt-6 leading-relaxed text-foreground/90">{introText}</p>
+                        <p className="mt-6 leading-relaxed text-foreground/90">
+                            <TransText fr={introText.fr} ar={introText.ar} nl={introText.nl} as="span" />
+                        </p>
                         <p className="mt-8 text-sm font-semibold uppercase tracking-wider text-alpha">
-                            SUIVEZ-NOUS
+                            <TransText fr="SUIVEZ-NOUS" ar="تابعنا" nl="VOLG ONS" as="span" />
                         </p>
                         <div className="mt-4 flex gap-4">
                             {socialLinks.map(({ name, href, icon: Icon }) => (
@@ -57,7 +65,7 @@ export default function ContactFormSection() {
 
                     <div className="rounded-xl border border-border bg-muted/50 p-6 shadow-sm lg:p-8">
                         <h3 className="text-xl font-semibold text-foreground">
-                            Envoyez-nous un message
+                            <TransText fr="Envoyez-nous un message" ar="أرسل لنا رسالة" nl="Stuur ons een bericht" as="span" />
                         </h3>
                         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                             <div className="grid gap-4 sm:grid-cols-2">
@@ -66,7 +74,7 @@ export default function ContactFormSection() {
                                         htmlFor="contact-name"
                                         className="mb-1 block text-sm font-medium text-foreground"
                                     >
-                                        Nom Complet
+                                        <TransText fr="Nom Complet" ar="الاسم الكامل" nl="Volledige naam" as="span" />
                                     </label>
                                     <input
                                         id="contact-name"
@@ -86,7 +94,7 @@ export default function ContactFormSection() {
                                         htmlFor="contact-email"
                                         className="mb-1 block text-sm font-medium text-foreground"
                                     >
-                                        E-mail
+                                        <TransText fr="E-mail" ar="البريد الإلكتروني" nl="E-mail" as="span" />
                                     </label>
                                     <input
                                         id="contact-email"
@@ -126,7 +134,7 @@ export default function ContactFormSection() {
                                     htmlFor="contact-message"
                                     className="mb-1 block text-sm font-medium text-foreground"
                                 >
-                                    Message (optionnel)
+                                    <TransText fr="Message (optionnel)" ar="الرسالة (اختياري)" nl="Bericht (optioneel)" as="span" />
                                 </label>
                                 <textarea
                                     id="contact-message"
@@ -146,7 +154,7 @@ export default function ContactFormSection() {
                                     disabled={processing}
                                     className="w-full rounded-lg bg-alpha px-4 py-3 text-sm font-medium uppercase text-cl-white transition hover:opacity-95 disabled:opacity-70 sm:w-auto"
                                 >
-                                    {processing ? 'Envoi...' : 'ENVOYER'}
+                                    {processing ? (locale === 'ar' ? 'جاري الإرسال...' : locale === 'nl' ? 'Verzenden...' : 'Envoi...') : (locale === 'ar' ? 'إرسال' : locale === 'nl' ? 'VERSTUREN' : 'ENVOYER')}
                                 </button>
                             </div>
                         </form>

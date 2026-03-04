@@ -1,7 +1,24 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+
+const LOCALES = ['fr', 'ar', 'nl'];
+const DEFAULT = 'fr';
+
+function pick(obj, locale) {
+    if (obj == null || typeof obj !== 'object') return obj;
+    const loc = LOCALES.includes(locale) ? locale : DEFAULT;
+    return obj[loc] ?? obj.fr ?? obj.ar ?? obj.nl ?? '';
+}
 
 export function FeaturedEventCard({ event }) {
-    const { title, subtitle, moderator, date, timeRange, location, tag, imageUrl, href = '#' } = event;
+    const { props } = usePage();
+    const locale = props.locale && LOCALES.includes(props.locale) ? props.locale : DEFAULT;
+    const { date, location, imageUrl, href = '#' } = event;
+    const title = pick(event.title, locale);
+    const subtitle = pick(event.subtitle, locale);
+    const moderator = pick(event.moderator, locale);
+    const timeRange = pick(event.timeRange, locale);
+    const tag = pick(event.tag, locale);
+
     return (
         <article className="overflow-hidden rounded-xl bg-card shadow-md">
             <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
@@ -37,7 +54,9 @@ export function FeaturedEventCard({ event }) {
             </div>
             <div className="p-4">
                 <Link href={href} className="text-sm font-medium text-alpha hover:underline">
-                    Voir l'événement →
+                    {locale === 'fr' && "Voir l'événement →"}
+                    {locale === 'ar' && 'عرض الفعالية ←'}
+                    {locale === 'nl' && 'Bekijk evenement →'}
                 </Link>
             </div>
         </article>
@@ -45,7 +64,13 @@ export function FeaturedEventCard({ event }) {
 }
 
 export function SmallEventCard({ event }) {
-    const { title, subtitle, description, imageUrl, href = '#' } = event;
+    const { props } = usePage();
+    const locale = props.locale && LOCALES.includes(props.locale) ? props.locale : DEFAULT;
+    const { imageUrl, href = '#' } = event;
+    const title = pick(event.title, locale);
+    const subtitle = event.subtitle ? pick(event.subtitle, locale) : null;
+    const description = pick(event.description, locale);
+
     return (
         <Link
             href={href}

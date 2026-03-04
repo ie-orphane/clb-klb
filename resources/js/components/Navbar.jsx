@@ -1,11 +1,12 @@
 import { Link, usePage, router } from '@inertiajs/react';
 import { useState, useRef, useEffect } from 'react';
+import TransText from '@/components/TransText';
 
 const navLinks = [
-    { label: 'ACCUEIL', href: '/' },
-    { label: 'À PROPOS', href: '/a-propos' },
-    { label: 'ACTUALITÉS', href: '#', hasDropdown: true },
-    { label: 'CONTACT', href: '/contact' },
+    { key: 'home', href: '/', hasDropdown: false, fr: 'ACCUEIL', ar: 'الرئيسية', nl: 'HOME' },
+    { key: 'about', href: '/a-propos', hasDropdown: false, fr: 'À PROPOS', ar: 'عنا', nl: 'OVER ONS' },
+    { key: 'news', href: '#', hasDropdown: true, fr: 'ACTUALITÉS', ar: 'أخبار', nl: 'NIEUWS' },
+    { key: 'contact', href: '/contact', hasDropdown: false, fr: 'CONTACT', ar: 'اتصل', nl: 'CONTACT' },
 ];
 
 const LOCALES = [
@@ -45,15 +46,16 @@ export default function Navbar() {
                 </Link>
 
                 <ul className="hidden items-center gap-8 md:flex">
-                    {navLinks.map(({ label, href, hasDropdown }) => {
-                        const isActive = window.location.pathname?.includes(label?.toLocaleLowerCase());
+                    {navLinks.map(({ key, href, hasDropdown, fr, ar, nl }) => {
+                        const path = href === '/' ? '/' : href;
+                        const isActive = path !== '/' ? window.location.pathname.startsWith(path) : window.location.pathname === '/';
                         return (
-                            <li key={label} className="flex items-center gap-1">
+                            <li key={key} className="flex items-center gap-1">
                                 <Link
                                     href={href}
                                     className={`text-sm font-medium text-cl-black transition hover:opacity-90 ${isActive ? 'underline underline-offset-4' : ''}`}
                                 >
-                                    {label}
+                                    <TransText fr={fr} ar={ar} nl={nl} as="span" />
                                 </Link>
                                 {hasDropdown && (
                                     <svg className="h-4 w-4 text-cl-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -61,7 +63,7 @@ export default function Navbar() {
                                     </svg>
                                 )}
                             </li>
-                        )
+                        );
                     })}
                 </ul>
 
@@ -80,13 +82,13 @@ export default function Navbar() {
                             </svg>
                         </button>
                         {open && (
-                            <ul className="absolute right-0 top-full z-50 mt-1 min-w-32 rounded-lg border border-border bg-card py-1 shadow-md">
+                            <ul className="absolute end-0 top-full z-50 mt-1 min-w-32 rounded-lg border border-border bg-card py-1 shadow-md">
                                 {LOCALES.map((l) => (
                                     <li key={l.code}>
                                         <button
                                             type="button"
                                             onClick={() => setLocale(l.code)}
-                                            className={`block w-full px-4 py-2 text-left text-sm transition hover:bg-muted ${l.code === locale ? 'font-medium text-foreground' : 'text-muted-foreground'}`}
+                                            className={`block w-full px-4 py-2 text-start text-sm transition hover:bg-muted ${l.code === locale ? 'font-medium text-foreground' : 'text-muted-foreground'}`}
                                         >
                                             {l.label}
                                         </button>
@@ -99,7 +101,7 @@ export default function Navbar() {
                         href="#"
                         className="rounded-lg bg-alpha px-4 py-2 text-sm font-medium uppercase text-cl-white transition hover:opacity-95"
                     >
-                        DEVENIR MEMBRE
+                        <TransText fr="DEVENIR MEMBRE" ar="كن عضواً" nl="LID WORDEN" as="span" />
                     </Link>
                 </div>
             </nav>

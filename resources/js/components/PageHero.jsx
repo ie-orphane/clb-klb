@@ -4,9 +4,10 @@ const DEFAULT_BACKGROUND_IMAGE =
 /**
  * Reusable page hero: full-width dark section with optional background image,
  * subtitle and title. Use at the top of every non-home page (À propos, Contact, etc.).
+ * subtitle and title can be strings or React nodes (e.g. <TransText />).
  *
- * @param {string} [subtitle] - Optional small uppercase text above the title
- * @param {string} title - Main heading
+ * @param {React.ReactNode} [subtitle] - Optional small uppercase text above the title
+ * @param {React.ReactNode} title - Main heading
  * @param {string} [backgroundImage] - Optional image URL (defaults to shared stock image)
  */
 export default function PageHero({ subtitle, title, backgroundImage = DEFAULT_BACKGROUND_IMAGE }) {

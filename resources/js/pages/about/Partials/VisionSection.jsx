@@ -1,4 +1,15 @@
+import { usePage } from '@inertiajs/react';
+import TransText from '@/components/TransText';
 import VisionCard from './VisionCard';
+
+const LOCALES = ['fr', 'ar', 'nl'];
+const DEFAULT = 'fr';
+
+function pick(obj, locale) {
+    if (obj == null || typeof obj !== 'object') return obj;
+    const loc = LOCALES.includes(locale) ? locale : DEFAULT;
+    return obj[loc] ?? obj.fr ?? obj.ar ?? obj.nl ?? '';
+}
 
 const connectIcon = (
     <svg className="h-14 w-14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -21,33 +32,41 @@ const learnIcon = (
 const values = [
     {
         icon: connectIcon,
-        subtitle: 'Se connaître',
-        description: "Nous facilitons le modèle de réseau de nos membres afin qu'elles puissent s'épanouir en ayant des opportunités d'affaires et se connaître mutuellement.",
+        subtitle: { fr: 'Se connaître', ar: 'التعارف', nl: 'Elkaar leren kennen' },
+        description: { fr: "Nous facilitons le modèle de réseau de nos membres afin qu'elles puissent s'épanouir en ayant des opportunités d'affaires et se connaître mutuellement.", ar: "نسهل نموذج الشبكة لأعضائنا حتى يزدهرن ويحصلن على فرص أعمال ويتعارفن.", nl: "We vergemakkelijken het netwerkmodel voor onze leden zodat zij kunnen bloeien met zakelijke kansen en elkaar leren kennen." },
     },
     {
         icon: dialogIcon,
-        subtitle: 'Dialoguer',
-        description: 'Nous encourageons et soutenons le dialogue et le partage entre nos membres, afin de promouvoir le leadership des femmes.',
+        subtitle: { fr: 'Dialoguer', ar: 'الحوار', nl: 'Dialoog' },
+        description: { fr: 'Nous encourageons et soutenons le dialogue et le partage entre nos membres, afin de promouvoir le leadership des femmes.', ar: 'نشجع وندعم الحوار والمشاركة بين أعضائنا لتعزيز القيادة النسائية.', nl: 'We moedigen dialoog en uitwisseling tussen onze leden aan om vrouwelijk leiderschap te bevorderen.' },
     },
     {
         icon: learnIcon,
-        subtitle: 'Prendre connaissance',
-        description: "Nous offrons des opportunités de formation et de mentorat pour le développement de nos membres.",
+        subtitle: { fr: 'Prendre connaissance', ar: 'الاطلاع', nl: 'Kennis nemen' },
+        description: { fr: "Nous offrons des opportunités de formation et de mentorat pour le développement de nos membres.", ar: "نقدم فرص التدريب والإرشاد لتطوير أعضائنا.", nl: "We bieden opleidings- en mentoringskansen voor de ontwikkeling van onze leden." },
     },
 ];
 
 export default function VisionSection() {
+    const { props } = usePage();
+    const locale = props.locale && LOCALES.includes(props.locale) ? props.locale : DEFAULT;
+    const valuesWithLocale = values.map((v) => ({
+        icon: v.icon,
+        subtitle: pick(v.subtitle, locale),
+        description: pick(v.description, locale),
+    }));
+
     return (
         <section className="border-b border-border bg-background py-16 lg:py-24">
             <div className="mx-auto max-w-7xl px-4 lg:px-8">
                 <p className="text-center text-sm font-medium uppercase tracking-wider text-alpha">
-                    NOTRE MISSION
+                    <TransText fr="NOTRE MISSION" ar="مهمتنا" nl="ONZE MISSIE" as="span" />
                 </p>
                 <h2 className="mt-2 text-center text-3xl font-bold text-foreground lg:text-4xl">
-                    Notre vision
+                    <TransText fr="Notre vision" ar="رؤيتنا" nl="Onze visie" as="span" />
                 </h2>
                 <div className="mt-12 grid gap-8 md:grid-cols-3">
-                    {values.map((item, i) => (
+                    {valuesWithLocale.map((item, i) => (
                         <VisionCard key={i} {...item} />
                     ))}
                 </div>

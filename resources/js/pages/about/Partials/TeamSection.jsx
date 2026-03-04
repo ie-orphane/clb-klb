@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import TransText from '@/components/TransText';
 
 const socialLinks = [
     { name: 'Facebook', href: '#', icon: 'facebook' },
@@ -32,10 +33,10 @@ export default function TeamSection() {
         <section className="border-b border-border bg-background py-16 lg:py-24">
             <div className="mx-auto max-w-7xl px-4 lg:px-8">
                 <p className="text-center text-sm font-medium uppercase tracking-wider text-alpha">
-                    Gouvernance
+                    <TransText fr="Gouvernance" ar="الحوكمة" nl="Bestuur" as="span" />
                 </p>
                 <h2 className="mt-2 text-center text-3xl font-bold text-foreground lg:text-4xl">
-                    Notre Équipe
+                    <TransText fr="Notre Équipe" ar="فريقنا" nl="Ons team" as="span" />
                 </h2>
                 <div className="mt-12 flex flex-wrap items-start justify-center gap-8 lg:gap-10">
                     {team.map((member, i) => (

@@ -1,3 +1,5 @@
+import TransText from '@/components/TransText';
+
 const team = [
     { name: 'Mariam Talal', imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop' },
     { name: 'Othmane Lahlou', imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop' },
@@ -11,10 +13,10 @@ export default function TeamSection() {
         <section className="border-b border-border bg-background py-16 lg:py-24">
             <div className="mx-auto max-w-7xl px-4 lg:px-8">
                 <p className="text-center text-sm font-medium uppercase tracking-wider text-cl-beta">
-                    La gouvernance du CLB
+                    <TransText fr="La gouvernance du CLB" ar="حوكمة CLB" nl="Het bestuur van CLB" as="span" />
                 </p>
                 <h2 className="mt-2 text-center text-3xl font-bold text-foreground lg:text-4xl">
-                    Notre Équipe
+                    <TransText fr="Notre Équipe" ar="فريقنا" nl="Ons team" as="span" />
                 </h2>
                 <div className="mt-12 flex flex-wrap items-center justify-center gap-8 lg:gap-12">
                     {team.map((member, i) => (

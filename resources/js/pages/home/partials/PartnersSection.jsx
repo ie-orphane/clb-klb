@@ -1,3 +1,5 @@
+import TransText from '@/components/TransText';
+
 const partners = [
     { name: 'CNES', logoUrl: null },
     { name: 'UM6P', logoUrl: null },
@@ -10,10 +12,10 @@ export default function PartnersSection() {
         <section className="border-b border-border bg-background py-16 lg:py-24">
             <div className="mx-auto max-w-7xl px-4 lg:px-8">
                 <p className="text-center text-sm font-medium uppercase tracking-wider text-cl-beta">
-                    Nos Partenaires
+                    <TransText fr="Nos Partenaires" ar="شركاؤنا" nl="Onze partners" as="span" />
                 </p>
                 <h2 className="mt-2 text-center text-3xl font-bold text-foreground lg:text-4xl">
-                    Nos Partenaires
+                    <TransText fr="Nos Partenaires" ar="شركاؤنا" nl="Onze partners" as="span" />
                 </h2>
                 <div className="mt-12 flex flex-wrap items-center justify-center gap-12 grayscale">
                     {partners.map((partner, i) => (
