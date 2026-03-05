@@ -1,52 +1,59 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import BlogsTable from './Partials/BlogsTable';
+import CreateBlogModal from './Partials/CreateBlogModal';
+import EditBlogModal from './Partials/EditBlogModal';
+import { useState } from 'react';
 
-export default function AdminBlogIndex({ blogs = [], categories = [] }) {
+export default function AdminBlogIndex({ blogs = [], activeLocale = 'fr' }) {
+    const [createOpen, setCreateOpen] = useState(false);
+    const [editingBlog, setEditingBlog] = useState(null);
+
     return (
         <>
             <AppLayout>
                 <Head title="Articles du blog" />
-                <div className="mx-auto max-w-4xl space-y-6 p-4">
-                    <div className="flex items-center justify-between">
-                        <h1 className="text-2xl font-semibold">Articles du blog</h1>
-                        <Button asChild>
-                            <Link href="/admin/blogs/create">Nouvel article</Link>
+                <div className="w-full pt-6 pr-6 pb-6 pl-6">
+                    <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h1 className="text-2xl font-semibold tracking-tight">Articles du blog</h1>
+                            <p className="text-muted-foreground mt-1 text-sm">
+                                Gérez les articles et le contenu du blog.
+                            </p>
+                        </div>
+                        <Button onClick={() => setCreateOpen(true)} className="w-fit shrink-0">
+                            Nouvel article
                         </Button>
                     </div>
 
-                    {blogs.length === 0 ? (
-                        <p className="text-muted-foreground">Aucun article. Créez-en un.</p>
-                    ) : (
-                        <ul className="space-y-3">
-                            {blogs.map((blog) => (
-                                <li
-                                    key={blog.id}
-                                    className="flex items-center gap-4 rounded-lg border border-border bg-card p-4"
-                                >
-                                    {blog.image && (
-                                        <img
-                                            src={blog.image}
-                                            alt=""
-                                            className="h-14 w-20 rounded object-cover"
-                                        />
-                                    )}
-                                    <div className="min-w-0 flex-1">
-                                        <p className="font-medium truncate">{blog.title_fr || 'Sans titre'}</p>
-                                        <p className="text-muted-foreground text-sm">
-                                            {categories.find((c) => c.slug === blog.category_slug)?.label_fr ?? blog.category_slug}
-                                        </p>
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <Button variant="outline" size="sm" asChild>
-                                            <Link href={`/admin/blogs/${blog.id}/edit`}>Modifier</Link>
-                                        </Button>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                    <Card>
+                        <CardHeader className="pb-4">
+                            <CardTitle className="text-base">Liste des articles</CardTitle>
+                            <CardDescription>
+                                {blogs.length === 0
+                                    ? 'Aucun article pour le moment.'
+                                    : `${blogs.length} article${blogs.length > 1 ? 's' : ''}`}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="px-6 pb-6">
+                            <BlogsTable
+                                blogs={blogs}
+                                activeLocale={activeLocale}
+                                onEdit={setEditingBlog}
+                                onDeleteSuccess={() => {}}
+                            />
+                        </CardContent>
+                    </Card>
                 </div>
+
+                <CreateBlogModal open={createOpen} onOpenChange={setCreateOpen} />
+                <EditBlogModal
+                    blog={editingBlog}
+                    open={!!editingBlog}
+                    onOpenChange={(open) => !open && setEditingBlog(null)}
+                />
             </AppLayout>
         </>
     );

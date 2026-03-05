@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBlogRequest;
@@ -14,7 +14,7 @@ use Inertia\Response;
 class BlogController extends Controller
 {
     /**
-     * List blogs for dashboard table (full locale data for edit modal).
+     * List blogs for admin table (full locale data for edit modal).
      */
     public function index(Request $request): Response
     {
@@ -41,7 +41,7 @@ class BlogController extends Controller
             ->values()
             ->all();
 
-        return Inertia::render('Dashboard/Blogs/index', [
+        return Inertia::render('admin/blog/index', [
             'blogs' => $blogs,
             'activeLocale' => $locale,
         ]);
@@ -74,7 +74,7 @@ class BlogController extends Controller
             'category_slug' => 'evenements',
         ]);
 
-        return redirect()->route('dashboard.blogs.index')->with('success', 'Blog created.');
+        return redirect()->route('admin.blogs.index')->with('success', 'Blog created.');
     }
 
     /**
@@ -102,7 +102,7 @@ class BlogController extends Controller
             ],
         ]);
 
-        return redirect()->route('dashboard.blogs.index')->with('success', 'Blog updated.');
+        return redirect()->route('admin.blogs.index')->with('success', 'Blog updated.');
     }
 
     /**
@@ -111,6 +111,6 @@ class BlogController extends Controller
     public function destroy(Blog $blog): RedirectResponse
     {
         $blog->delete();
-        return redirect()->route('dashboard.blogs.index')->with('success', 'Blog deleted.');
+        return redirect()->route('admin.blogs.index')->with('success', 'Blog deleted.');
     }
 }
