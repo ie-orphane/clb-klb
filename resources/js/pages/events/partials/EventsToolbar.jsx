@@ -1,16 +1,19 @@
+import { useTrans } from '@/hooks/use-trans';
+
 const statusTabs = [
-    { id: 'upcoming', label: 'À venir', active: true },
-    { id: 'past', label: 'Passés', active: false },
+    { id: 'upcoming', label: { fr: 'À venir', ar: 'القادمة', nl: 'Aankomend' }, active: true },
+    { id: 'past', label: { fr: 'Passés', ar: 'الماضية', nl: 'Afgelopen' }, active: false },
 ];
 
 const typeFilters = [
-    { id: 'all', label: 'Tous', active: true },
-    { id: 'conference', label: 'Conférence', active: false },
-    { id: 'gala', label: 'Gala', active: false },
-    { id: 'networking', label: 'Networking', active: false },
+    { id: 'all', label: { fr: 'Tous', ar: 'الكل', nl: 'Alle' }, active: true },
+    { id: 'conference', label: { fr: 'Conférence', ar: 'مؤتمر', nl: 'Conferentie' }, active: false },
+    { id: 'gala', label: { fr: 'Gala', ar: 'حفل', nl: 'Gala' }, active: false },
+    { id: 'networking', label: { fr: 'Networking', ar: 'تواصل', nl: 'Networking' }, active: false },
 ];
 
 export default function EventsToolbar() {
+    const { t } = useTrans();
     return (
         <section className="bg-background">
             <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 lg:flex-row lg:items-center lg:justify-between lg:px-8">
@@ -25,7 +28,7 @@ export default function EventsToolbar() {
                                     : 'text-cl-beta hover:text-cl-black'
                             }`}
                         >
-                            {tab.label}
+                            {t(tab.label)}
                         </button>
                     ))}
                 </div>
@@ -41,7 +44,7 @@ export default function EventsToolbar() {
                                     : 'border border-border bg-cl-white text-cl-black hover:border-alpha/40'
                             }`}
                         >
-                            {filter.label}
+                            {t(filter.label)}
                         </button>
                     ))}
                 </div>

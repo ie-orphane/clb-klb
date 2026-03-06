@@ -4,7 +4,7 @@ use App\Http\Controllers\LocaleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::post('/locale', [LocaleController::class, 'store'])->name('locale.store');
+Route::post('/locale', [LocaleController::class, 'store']);
 
 Route::get('/', function () {
     return Inertia::render('home/index');

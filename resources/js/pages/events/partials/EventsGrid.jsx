@@ -1,5 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { Clock1Icon } from 'lucide-react';
+import TransText from '@/components/TransText';
+import { useTrans } from '@/hooks/use-trans';
 
 // const events = [
 //     {
@@ -105,13 +107,15 @@ function PinIcon() {
 }
 
 function EventCard({ event }) {
+    const { t } = useTrans();
+
     return (
         <article className="flex flex-col overflow-hidden rounded-2xl border border-border bg-cl-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
             {/* Image section */}
             <div className="relative h-52 w-full overflow-hidden">
                 <img
                     src={event.image}
-                    alt={event.title}
+                    alt={t(event.title)}
                     className="h-full w-full object-cover"
                 />
                 {/* Date badge */}
@@ -127,14 +131,14 @@ function EventCard({ event }) {
                 </div>
                 {/* Category badge */}
                 <span className="absolute top-4 right-4 rounded-full bg-cl-white px-3 py-1 text-xs font-semibold text-cl-black shadow-sm">
-                    {event.category}
+                    {t(event.categorie)}
                 </span>
             </div>
 
             {/* Content */}
             <div className="flex flex-1 flex-col p-5">
                 <h3 className="line-clamp-1 text-base leading-snug font-bold text-cl-black lg:text-lg">
-                    {event.title}
+                    {t(event.title)}
                 </h3>
 
                 <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-cl-beta">
@@ -149,7 +153,7 @@ function EventCard({ event }) {
                 </div>
 
                 <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-cl-beta">
-                    {event.description}
+                    {t(event.description)}
                 </p>
 
                 <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
@@ -160,7 +164,7 @@ function EventCard({ event }) {
                         href={`/events/${event.id}`}
                         className="flex items-center gap-1 text-sm font-medium text-cl-black transition hover:text-alpha"
                     >
-                        En savoir plus
+                        <TransText fr="En savoir plus" ar="اقرأ المزيد" nl="Meer weten" />
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-4 w-4"
@@ -194,7 +198,7 @@ export default function EventsGrid({ events }) {
                         type="button"
                         className="inline-flex items-center justify-center rounded-full border border-alpha/30 bg-cl-white px-10 py-3 text-sm font-semibold text-alpha transition hover:bg-alpha hover:text-cl-white"
                     >
-                        Charger plus d&apos;événements
+                        <TransText fr="Charger plus d'événements" ar="تحميل المزيد من الفعاليات" nl="Meer evenementen laden" />
                     </button>
                 </div>
             </div>

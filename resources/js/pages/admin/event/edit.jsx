@@ -4,6 +4,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
+const LANGS = [
+    { code: 'fr', label: 'French' },
+    { code: 'ar', label: 'Arabic' },
+    { code: 'nl', label: 'Dutch' },
+];
+
+function transValue(field) {
+    if (field && typeof field === 'object') return { fr: field.fr || '', ar: field.ar || '', nl: field.nl || '' };
+    return { fr: field || '', ar: '', nl: '' };
+}
+
 export default function AdminEventEdit({ event }) {
     const breadcrumbs = [
         { title: 'Dashboard', href: '/dashboard' },
@@ -12,15 +23,19 @@ export default function AdminEventEdit({ event }) {
     ];
 
     const { data, setData, put, processing, errors } = useForm({
-        title: event.title || '',
-        description: event.description || '',
+        title: transValue(event.title),
+        description: transValue(event.description),
         date: event.date || '',
         time: event.time || '',
-        categorie: event.categorie || '',
+        categorie: transValue(event.categorie),
         price: event.price || 0,
         image: event.image || '',
         location: event.location || '',
     });
+
+    const setTransField = (field, lang, value) => {
+        setData(field, { ...data[field], [lang]: value });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -29,46 +44,66 @@ export default function AdminEventEdit({ event }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit: ${event.title}`} />
+            <Head title={`Edit: ${data.title.fr}`} />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Edit Event</h1>
                 </div>
 
-                <form onSubmit={handleSubmit} className="mx-auto w-full max-w-2xl space-y-6 rounded-lg border p-6">
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <div className="space-y-2">
-                            <Label htmlFor="title">Title</Label>
-                            <Input
-                                id="title"
-                                value={data.title}
-                                onChange={(e) => setData('title', e.target.value)}
-                            />
-                            {errors.title && <p className="text-sm text-destructive">{errors.title}</p>}
+                <form onSubmit={handleSubmit} className="mx-auto w-full max-w-3xl space-y-6 rounded-lg border p-6">
+                    {/* Title - multilanguage */}
+                    <fieldset className="space-y-3 rounded-md border p-4">
+                        <legend className="px-2 text-sm font-semibold">Title</legend>
+                        <div className="grid gap-3 md:grid-cols-3">
+                            {LANGS.map((lang) => (
+                                <div key={lang.code} className="space-y-1">
+                                    <Label htmlFor={`title_${lang.code}`}>{lang.label}</Label>
+                                    <Input
+                                        id={`title_${lang.code}`}
+                                        value={data.title[lang.code]}
+                                        onChange={(e) => setTransField('title', lang.code, e.target.value)}
+                                    />
+                                    {errors[`title.${lang.code}`] && <p className="text-sm text-destructive">{errors[`title.${lang.code}`]}</p>}
+                                </div>
+                            ))}
                         </div>
+                    </fieldset>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="categorie">Category</Label>
-                            <Input
-                                id="categorie"
-                                value={data.categorie}
-                                onChange={(e) => setData('categorie', e.target.value)}
-                            />
-                            {errors.categorie && <p className="text-sm text-destructive">{errors.categorie}</p>}
+                    {/* Category - multilanguage */}
+                    <fieldset className="space-y-3 rounded-md border p-4">
+                        <legend className="px-2 text-sm font-semibold">Category</legend>
+                        <div className="grid gap-3 md:grid-cols-3">
+                            {LANGS.map((lang) => (
+                                <div key={lang.code} className="space-y-1">
+                                    <Label htmlFor={`categorie_${lang.code}`}>{lang.label}</Label>
+                                    <Input
+                                        id={`categorie_${lang.code}`}
+                                        value={data.categorie[lang.code]}
+                                        onChange={(e) => setTransField('categorie', lang.code, e.target.value)}
+                                    />
+                                    {errors[`categorie.${lang.code}`] && <p className="text-sm text-destructive">{errors[`categorie.${lang.code}`]}</p>}
+                                </div>
+                            ))}
                         </div>
-                    </div>
+                    </fieldset>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="description">Description</Label>
-                        <textarea
-                            id="description"
-                            rows={4}
-                            className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-                            value={data.description}
-                            onChange={(e) => setData('description', e.target.value)}
-                        />
-                        {errors.description && <p className="text-sm text-destructive">{errors.description}</p>}
-                    </div>
+                    {/* Description - multilanguage */}
+                    <fieldset className="space-y-3 rounded-md border p-4">
+                        <legend className="px-2 text-sm font-semibold">Description</legend>
+                        {LANGS.map((lang) => (
+                            <div key={lang.code} className="space-y-1">
+                                <Label htmlFor={`description_${lang.code}`}>{lang.label}</Label>
+                                <textarea
+                                    id={`description_${lang.code}`}
+                                    rows={3}
+                                    className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                                    value={data.description[lang.code]}
+                                    onChange={(e) => setTransField('description', lang.code, e.target.value)}
+                                />
+                                {errors[`description.${lang.code}`] && <p className="text-sm text-destructive">{errors[`description.${lang.code}`]}</p>}
+                            </div>
+                        ))}
+                    </fieldset>
 
                     <div className="grid gap-4 md:grid-cols-2">
                         <div className="space-y-2">
@@ -116,17 +151,17 @@ export default function AdminEventEdit({ event }) {
                             />
                             {errors.price && <p className="text-sm text-destructive">{errors.price}</p>}
                         </div>
-                    </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="image">Image URL</Label>
-                        <Input
-                            id="image"
-                            value={data.image}
-                            onChange={(e) => setData('image', e.target.value)}
-                            placeholder="https://example.com/image.jpg"
-                        />
-                        {errors.image && <p className="text-sm text-destructive">{errors.image}</p>}
+                        <div className="space-y-2">
+                            <Label htmlFor="image">Image URL</Label>
+                            <Input
+                                id="image"
+                                value={data.image}
+                                onChange={(e) => setData('image', e.target.value)}
+                                placeholder="https://example.com/image.jpg"
+                            />
+                            {errors.image && <p className="text-sm text-destructive">{errors.image}</p>}
+                        </div>
                     </div>
 
                     <div className="flex items-center justify-end gap-3">

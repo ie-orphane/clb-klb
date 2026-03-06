@@ -1,7 +1,10 @@
-import { Head, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { CalendarDays, Edit, Plus, Trash2 } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
+import ConfirmDeleteDialog from '@/components/confirm-delete-dialog';
+import AlertSuccess from '@/components/alert-success';
 
 const breadcrumbs = [
     { title: 'Dashboard', href: '/dashboard' },
@@ -9,10 +12,18 @@ const breadcrumbs = [
 ];
 
 export default function AdminEventIndex({ events }) {
-    const handleDelete = (id) => {
-        if (confirm('Are you sure you want to delete this event?')) {
-            router.delete(`/admin/events/${id}`);
-        }
+    const { flash } = usePage().props;
+    const [deleteId, setDeleteId] = useState(null);
+    const [deleting, setDeleting] = useState(false);
+
+    const handleDelete = () => {
+        setDeleting(true);
+        router.delete(`/admin/events/${deleteId}`, {
+            onFinish: () => {
+                setDeleting(false);
+                setDeleteId(null);
+            },
+        });
     };
 
     return (
@@ -53,8 +64,8 @@ export default function AdminEventIndex({ events }) {
                             )}
                             {events.map((event) => (
                                 <tr key={event.id} className="border-b last:border-0 hover:bg-muted/30">
-                                    <td className="px-4 py-3 font-medium">{event.title}</td>
-                                    <td className="px-4 py-3">{event.categorie}</td>
+                                    <td className="px-4 py-3 font-medium">{event.title?.fr || event.title}</td>
+                                    <td className="px-4 py-3">{event.categorie?.fr || event.categorie}</td>
                                     <td className="px-4 py-3">{event.date}</td>
                                     <td className="px-4 py-3">{event.time}</td>
                                     <td className="px-4 py-3">{event.location}</td>
@@ -70,7 +81,7 @@ export default function AdminEventIndex({ events }) {
                                             <Button
                                                 variant="destructive"
                                                 size="sm"
-                                                onClick={() => handleDelete(event.id)}
+                                                onClick={() => setDeleteId(event.id)}
                                             >
                                                 <Trash2 className="mr-1 h-3.5 w-3.5" />
                                                 Delete
@@ -83,6 +94,17 @@ export default function AdminEventIndex({ events }) {
                     </table>
                 </div>
             </div>
+
+            <ConfirmDeleteDialog
+                open={deleteId !== null}
+                onOpenChange={(val) => { if (!val) setDeleteId(null); }}
+                onConfirm={handleDelete}
+                processing={deleting}
+                title="Delete Event"
+                description="Are you sure you want to delete this event? All participants registered to this event will also be removed. This action cannot be undone."
+            />
+
+            <AlertSuccess message={flash?.success} />
         </AppLayout>
     );
 }
