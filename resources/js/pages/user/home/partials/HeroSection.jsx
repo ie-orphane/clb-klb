@@ -3,25 +3,29 @@ import TransText from '@/components/TransText';
 
 export default function HeroSection() {
     return (
-        <section className="relative flex min-h-[90vh] items-center justify-center overflow-hidden bg-cl-black px-4 py-28 sm:py-32">
+        <section className="relative flex min-h-[62.5vh] items-center justify-center bg-cl-black/75 px-4 py-24">
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{
-                    backgroundImage:
-                        'url(https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&q=80)',
+                    backgroundImage: `url(/assets/hero-bg.webp)`,
                 }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-cl-black/70 via-cl-black/60 to-cl-black/85" />
-            <div className="absolute inset-0 bg-cl-black/40" />
+            <div
+                className="absolute inset-0"
+                style={{
+                    background:
+                        'linear-gradient(to right, rgba(32, 18, 19, 0.625) 0%, rgba(32, 18, 19, 0.75) 50%, rgba(32, 18, 19, 0.625) 100%)',
+                }}
+            />
             <div className="relative z-10 mx-auto max-w-4xl text-center">
-                <p className="mb-4 text-sm font-medium tracking-[0.2em] text-alpha uppercase">
+                <h1 className="mb-6 text-3xl leading-tight font-bold text-cl-white uppercase sm:text-4xl lg:text-5xl xl:text-6xl">
                     <TransText
                         fr="Le réseau des diplômés"
                         ar="شبكة الخريجين"
                         nl="Het netwerk van afgestudeerden"
                         as="span"
                     />
-                </p>
+                </h1>
                 <h1 className="mb-6 text-4xl font-extrabold leading-[1.1] tracking-tight text-cl-white sm:text-5xl lg:text-6xl xl:text-7xl">
                     <TransText
                         fr="Le Cercle des Lauréats de Belgique"
@@ -41,28 +45,23 @@ export default function HeroSection() {
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-4">
                     <Link
-                        href="#objectifs"
-                        className="inline-flex items-center gap-2 rounded-lg bg-alpha px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-cl-white shadow-lg transition hover:bg-alpha/90 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-alpha focus:ring-offset-2 focus:ring-offset-cl-black"
+                        href="/a-propos"
+                        className="rounded-full bg-alpha px-12 py-4 text-sm font-semibold text-cl-white transition hover:bg-alpha/85"
                     >
                         <TransText
-                            fr="En savoir plus"
+                            fr="EN SAVOIR PLUS"
                             ar="اعرف المزيد"
-                            nl="Meer weten"
-                            as="span"
+                            nl="MEER WETEN"
                         />
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
                     </Link>
                     <Link
                         href="/contact"
-                        className="inline-flex items-center gap-2 rounded-lg border-2 border-cl-white/90 bg-transparent px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-cl-white transition hover:bg-cl-white/10 focus:outline-none focus:ring-2 focus:ring-cl-white/50 focus:ring-offset-2 focus:ring-offset-cl-black"
+                        className="rounded-full border border-cl-white px-12 py-4 text-sm font-semibold text-cl-white uppercase transition hover:bg-cl-white/5"
                     >
                         <TransText
-                            fr="Nous contacter"
+                            fr="contactez-nous"
                             ar="اتصل بنا"
-                            nl="Contacteer ons"
-                            as="span"
+                            nl="CONTACTEER ONS"
                         />
                     </Link>
                 </div>

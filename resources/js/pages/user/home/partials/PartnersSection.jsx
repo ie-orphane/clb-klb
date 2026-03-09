@@ -1,10 +1,15 @@
 import TransText from '@/components/TransText';
 
 const partners = [
-    { name: 'CNES', logoUrl: null },
-    { name: 'UM6P', logoUrl: null },
-    { name: 'ENSAM', logoUrl: null },
-    { name: 'MIP', logoUrl: null },
+    { name: 'APEFE', logoUrl: 'assets/partners/apefe.png' },
+    { name: 'LIONSGEEK', logoUrl: 'assets/partners/lionsgeek.webp' },
+    { name: 'WB-EBM', logoUrl: 'assets/partners/wallonie-bruxelles-ebm.webp' },
+    {
+        name: 'WALLONIE-BRUXELLES',
+        logoUrl: 'assets/partners/wallonie-bruxelles.webp',
+    },
+    { name: 'LIEGE', logoUrl: 'assets/partners/liege.webp' },
+    { name: 'ULB', logoUrl: 'assets/partners/ulb.webp' },
 ];
 
 function PartnerLogo({ partner, index }) {
@@ -32,35 +37,40 @@ export default function PartnersSection() {
     return (
         <section className="border-b border-border bg-cl-blue-light/30 py-16 lg:py-24">
             <div className="mx-auto max-w-7xl px-4 lg:px-8">
-                <p className="text-center text-sm font-semibold tracking-[0.15em] text-alpha uppercase">
+                <p className="text-center text-xs font-medium tracking-wider text-alpha uppercase">
                     <TransText
-                        fr="Ils nous font confiance"
-                        ar="يثقون بنا"
-                        nl="Ze vertrouwen ons"
+                        fr="Nos Partenaires"
+                        ar="شركاؤنا"
+                        nl="Onze partners"
                         as="span"
                     />
                 </p>
-                <h2 className="mt-3 text-center text-3xl font-bold tracking-tight text-foreground lg:text-4xl">
+                <h2 className="mt-2 text-center text-3xl font-bold text-foreground lg:text-4xl">
                     <TransText
-                        fr="Nos partenaires"
+                        fr="Nos Partenaires"
                         ar="شركاؤنا"
                         nl="Onze partners"
                         as="span"
                     />
                 </h2>
-                <div className="mx-auto mt-4 h-0.5 w-16 rounded-full bg-alpha" />
-            </div>
-            <div className="relative mt-12 overflow-hidden">
-                <div
-                    className="flex w-max gap-8 px-4 sm:gap-12 sm:px-8"
-                    style={{
-                        animation: 'partners-marquee 40s linear infinite',
-                        willChange: 'transform',
-                    }}
-                >
-                    {/* Duplicate 4x so track is long; keyframes translate -50% = 2 sets = seamless loop */}
-                    {[...partners, ...partners, ...partners, ...partners].map((partner, i) => (
-                        <PartnerLogo partner={partner} index={i} />
+                <div className="mt-12 flex flex-wrap items-center justify-center gap-12 grayscale">
+                    {partners.map((partner, i) => (
+                        <div
+                            key={i}
+                            className="flex h-20 w-28 items-center justify-center md:h-24 md:w-32 lg:h-28 lg:w-36"
+                        >
+                            {partner.logoUrl ? (
+                                <img
+                                    src={partner.logoUrl}
+                                    alt={partner.name}
+                                    className="max-h-full max-w-full"
+                                />
+                            ) : (
+                                <span className="text-lg font-semibold text-muted-foreground">
+                                    {partner.name}
+                                </span>
+                            )}
+                        </div>
                     ))}
                 </div>
             </div>

@@ -1,21 +1,6 @@
-import { usePage } from '@inertiajs/react';
-
-const LOCALES = ['fr', 'ar', 'nl'];
-const DEFAULT = 'fr';
-
-function pick(obj, locale) {
-    if (obj == null || typeof obj !== 'object') return obj;
-    const loc = LOCALES.includes(locale) ? locale : DEFAULT;
-    return obj[loc] ?? obj.fr ?? obj.ar ?? obj.nl ?? '';
-}
+import TransText from '@/components/TransText';
 
 export default function ObjectiveBlock({ iconKey, title, description }) {
-    const { props } = usePage();
-    const locale =
-        props.locale && LOCALES.includes(props.locale) ? props.locale : DEFAULT;
-    const titleText = pick(title, locale);
-    const descText = pick(description, locale);
-
     const icons = {
         promote: (
             <svg
@@ -122,13 +107,16 @@ export default function ObjectiveBlock({ iconKey, title, description }) {
     };
     const icon = icons[iconKey] || icons.promote;
     return (
-        <div className="group relative rounded-2xl border border-border bg-card p-6 shadow-sm transition hover:border-alpha/30 hover:shadow-lg">
-            <div className="absolute left-0 top-0 h-full w-1 rounded-l-2xl bg-alpha opacity-0 transition group-hover:opacity-100" />
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-alpha/10 text-alpha transition group-hover:bg-alpha group-hover:text-cl-white">
+        <div className="flex flex-col items-center rounded-xl border border-border bg-card px-6 py-10 text-center shadow-sm transition hover:shadow-md">
+            <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-alpha/5 text-alpha">
                 {icon}
             </div>
-            <h3 className="text-lg font-bold tracking-tight text-foreground">{titleText}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{descText}</p>
+            <h3 className="text-lg font-bold text-foreground">
+                <TransText {...title} />
+            </h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+                <TransText {...description} />
+            </p>
         </div>
     );
 }

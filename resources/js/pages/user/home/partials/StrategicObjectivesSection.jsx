@@ -70,20 +70,18 @@ export default function StrategicObjectivesSection() {
     return (
         <section id="objectifs" className="scroll-mt-20 border-b border-border bg-background py-16 lg:py-24">
             <div className="mx-auto max-w-7xl px-4 lg:px-8">
-                <p className="text-center text-sm font-semibold tracking-[0.15em] text-alpha uppercase">
+                <p className="text-center text-xs font-medium tracking-wider text-alpha uppercase">
                     <TransText
-                        fr="Nos missions"
+                        fr="Nos Missions"
                         ar="مهامنا"
                         nl="Onze missies"
-                        as="span"
                     />
                 </p>
-                <h2 className="mt-3 text-center text-3xl font-bold tracking-tight text-foreground lg:text-4xl">
+                <h2 className="mt-2 text-center text-3xl font-bold text-foreground lg:text-4xl">
                     <TransText
-                        fr="Nos objectifs"
+                        fr="Nos Objectifs Stratégiques"
                         ar="أهدافنا الاستراتيجية"
                         nl="Onze strategische doelstellingen"
-                        as="span"
                     />
                 </h2>
                 <div className="mx-auto mt-4 h-0.5 w-16 rounded-full bg-alpha" />
