@@ -9,8 +9,8 @@ const activitiesText = {
 
 export default function ActivitiesSection() {
     return (
-        <section className="bg-cl-black py-16 lg:py-24">
-            <div className="mx-auto grid max-w-7xl gap-12 px-4 lg:grid-cols-2 lg:gap-16 lg:px-8">
+        <section className="border-b border-border bg-foreground py-20 lg:py-28">
+            <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-2 lg:gap-16 lg:px-6">
                 <div className="flex flex-col justify-center">
                     <p className="text-sm font-medium tracking-wider text-alpha uppercase">
                         <TransText
@@ -48,11 +48,11 @@ export default function ActivitiesSection() {
                         />
                     </Link>
                 </div>
-                <div className="relative aspect-[16/10] overflow-hidden rounded-xl">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
                     <img
-                        src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80"
-                        alt=""
-                        className="h-full w-full object-cover"
+                        src="/assets/about-team.png"
+                        alt="Équipe CLB KLB"
+                        className="h-full w-full object-cover object-center"
                     />
                 </div>
             </div>

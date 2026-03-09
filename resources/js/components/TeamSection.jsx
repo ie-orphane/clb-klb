@@ -1,0 +1,108 @@
+import TransText from '@/components/TransText';
+
+function MemberCard({ member }) {
+    const imageUrl = member.imageUrl || member.image_path;
+    return (
+        <article className="group relative flex flex-col overflow-hidden rounded-xl text-center transition-all duration-300">
+            <div className="absolute left-0 top-0 h-full w-1 rounded-l-xl bg-primary/0 transition-colors group-hover:bg-primary" aria-hidden />
+            <div className="relative mx-auto mt-6 h-28 w-28 shrink-0 overflow-hidden rounded-full sm:h-32 sm:w-32">
+                {imageUrl ? (
+                    <img
+                        src={imageUrl}
+                        alt={member.name}
+                        className="h-full w-full object-cover object-center transition duration-300 group-hover:scale-105"
+                    />
+                ) : (
+                    <span className="flex h-full w-full items-center justify-center rounded-full bg-muted text-3xl font-semibold text-muted-foreground sm:text-4xl">
+                        {(member.name || ' ').charAt(0).toUpperCase()}
+                    </span>
+                )}
+            </div>
+            <div className="flex flex-1 flex-col px-4 pb-6 pt-5 sm:px-6 sm:pb-8 sm:pt-6">
+                <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                    {member.name}
+                </h3>
+                {member.position && (
+                    <p className="mt-2 text-sm leading-snug text-muted-foreground">
+                        {member.position}
+                    </p>
+                )}
+            </div>
+        </article>
+    );
+}
+
+function MemberCarousel({ title, members }) {
+    if (!members.length) return null;
+    return (
+        <div className="mt-14">
+            <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                {title}
+            </p>
+            <div className="mx-auto mt-4 h-0.5 w-16 rounded-full bg-primary/40" aria-hidden />
+            <div className="group/carousel mt-12 overflow-hidden">
+                <div className="carousel-loop carousel-loop--slow flex w-max">
+                    <div className="flex gap-1 pr-2">
+                        {members.map((member) => (
+                            <div key={`a-${member.id || member.name}`} className="w-[20px] shrink-0 sm:w-[300px]">
+                                <MemberCard member={member} />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex gap-1 pr-2">
+                        {members.map((member) => (
+                            <div key={`b-${member.id || member.name}`} className="w-[280px] shrink-0 sm:w-[300px]">
+                                <MemberCard member={member} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default function TeamSection({ teamMembers = [] }) {
+    const bureau = teamMembers.filter((m) => (m.category || 'bureau') === 'bureau');
+    const honorary = teamMembers.filter((m) => m.category === 'honorary');
+    if (bureau.length === 0 && honorary.length === 0) return null;
+
+    return (
+        <section className="border-b border-border bg-background py-20 lg:py-28">
+            <div className="mx-auto max-w-6xl px-4 lg:px-6">
+                <div className="text-center">
+                    <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                        <TransText fr="Gouvernance" ar="الحوكمة" nl="Bestuur" as="span" />
+                    </span>
+                    <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground lg:text-4xl">
+                        <TransText fr="Notre équipe" ar="فريقنا" nl="Ons team" as="span" />
+                    </h2>
+                    <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                        <TransText
+                            fr="Les femmes et hommes qui font vivre le Cercle au quotidien."
+                            ar="النساء والرجال الذين يحيون الدائرة يومياً."
+                            nl="De mensen die de Kring dagelijks doen leven."
+                            as="span"
+                        />
+                    </p>
+                </div>
+
+                {bureau.length > 0 && (
+                    <MemberCarousel
+                        title={<TransText fr="Membres du bureau" ar="أعضاء المكتب" nl="Bureau-leden" as="span" />}
+                        members={bureau}
+                    />
+                )}
+
+                {honorary.length > 0 && (
+                    <div className="mt-20 border-t border-border pt-16">
+                        <MemberCarousel
+                            title={<TransText fr={"Membres d'honneur"} ar="أعضاء الشرف" nl="Ereleden" as="span" />}
+                            members={honorary}
+                        />
+                    </div>
+                )}
+            </div>
+        </section>
+    );
+}

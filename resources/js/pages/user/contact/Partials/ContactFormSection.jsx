@@ -36,8 +36,8 @@ export default function ContactFormSection() {
     }
 
     return (
-        <section className="border-b border-border bg-background py-16 lg:py-24">
-            <div className="mx-auto max-w-7xl px-4 lg:px-8">
+        <section className="border-b border-border bg-background py-20 lg:py-28">
+            <div className="mx-auto max-w-6xl px-4 lg:px-6">
                 <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
                     <div>
                         <p className="text-sm font-semibold tracking-wider text-alpha uppercase">
@@ -72,21 +72,21 @@ export default function ContactFormSection() {
                                 as="span"
                             />
                         </p>
-                        <div className="mt-4 flex gap-4">
+                        <div className="mt-4 flex gap-3">
                             {socialLinks.map(({ name, href, icon: Icon }) => (
                                 <a
                                     key={name}
                                     href={href}
-                                    className="text-muted-foreground transition hover:text-foreground"
+                                    className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted text-muted-foreground transition hover:bg-primary hover:text-primary-foreground"
                                     aria-label={name}
                                 >
-                                    <Icon className="h-6 w-6" />
+                                    <Icon className="h-5 w-5" />
                                 </a>
                             ))}
                         </div>
                     </div>
 
-                    <div className="rounded-xl border border-border bg-muted/50 p-6 shadow-sm lg:p-8">
+                    <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] lg:p-8">
                         <h3 className="text-xl font-semibold text-foreground">
                             <TransText
                                 fr="Envoyez-nous un message"

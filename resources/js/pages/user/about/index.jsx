@@ -5,10 +5,10 @@ import TransText from '@/components/TransText';
 import WhoWeAreSection from './Partials/WhoWeAreSection';
 import VisionSection from './Partials/VisionSection';
 import ActivitiesSection from './Partials/ActivitiesSection';
-import TeamSection from './Partials/TeamSection';
-import PartnersSection from './Partials/PartnersSection';
+import TeamSection from '@/components/TeamSection';
+import PartnersSection from '@/components/PartnersSection';
 
-function AboutIndex() {
+function AboutIndex({ teamMembers = [], partners = [] }) {
     return (
         <>
             <AppLayout>
@@ -32,8 +32,8 @@ function AboutIndex() {
                 <WhoWeAreSection />
                 <VisionSection />
                 <ActivitiesSection />
-                <TeamSection />
-                <PartnersSection />
+                <TeamSection teamMembers={teamMembers} />
+                <PartnersSection partners={partners} />
             </AppLayout>
         </>
     );

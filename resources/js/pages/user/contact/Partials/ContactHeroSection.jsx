@@ -39,17 +39,17 @@ const contactCards = [
 
 export default function ContactHeroSection() {
     return (
-        <section className="bg-cl-blue-light px-4 pt-24 pb-16 lg:px-8">
-            <div className="mx-auto max-w-7xl">
-                <h1 className="text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+        <section className="border-b border-border bg-muted/40 px-4 py-20 lg:px-6 lg:py-28">
+            <div className="mx-auto max-w-6xl">
+                <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                     <TransText
                         fr="Ne cherchez pas sur Google, demandez-nous"
                         ar="لا تبحث في غوغل، اسألنا"
                         nl="Zoek niet op Google, vraag het ons"
                         as="span"
                     />
-                </h1>
-                <p className="mt-4 max-w-2xl text-foreground/90">
+                </h2>
+                <p className="mt-6 max-w-2xl text-muted-foreground">
                     <TransText
                         fr="Une question, une suggestion ou une envie de rejoindre notre réseau ? N'hésitez pas à nous écrire, notre équipe est là pour vous écouter."
                         ar="سؤال، اقتراح أو رغبة في الانضمام إلى شبكتنا؟ لا تتردد في الكتابة إلينا، فريقنا في خدمتك."

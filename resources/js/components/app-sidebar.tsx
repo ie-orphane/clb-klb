@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import { BookOpen, CalendarDays, FolderGit2, Handshake, LayoutGrid, UserCircle, Users } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -22,7 +22,27 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'blogs',
+        title: 'Events',
+        href: '/admin/events',
+        icon: CalendarDays,
+    },
+    {
+        title: 'Participants',
+        href: '/admin/participants',
+        icon: Users,
+    },
+    {
+        title: 'Team',
+        href: '/admin/team',
+        icon: UserCircle,
+    },
+    {
+        title: 'Partners',
+        href: '/admin/partners',
+        icon: Handshake,
+    },
+    {
+        title: 'Blogs',
         href: '/admin/blogs',
         icon: BookOpen,
     },
@@ -61,7 +81,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

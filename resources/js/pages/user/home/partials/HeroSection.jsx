@@ -43,7 +43,7 @@ export default function HeroSection() {
                         as="span"
                     />
                 </p>
-                <div className="flex flex-wrap items-center justify-center gap-4">
+                <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
                     <Link
                         href="/a-propos"
                         className="rounded-full bg-alpha px-12 py-4 text-sm font-semibold text-cl-white transition hover:bg-alpha/85"

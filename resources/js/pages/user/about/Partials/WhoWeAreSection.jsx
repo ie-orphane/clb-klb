@@ -8,13 +8,13 @@ const aboutText = {
 
 export default function WhoWeAreSection() {
     return (
-        <section className="border-b border-border bg-background py-16 lg:py-24">
-            <div className="mx-auto grid max-w-7xl gap-12 px-4 lg:grid-cols-2 lg:gap-16 lg:px-8">
-                <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-muted shadow-md">
+        <section className="border-b border-border bg-background py-20 lg:py-28">
+            <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-2 lg:gap-16 lg:px-6">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted shadow-[var(--shadow-card)]">
                     <img
-                        src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80"
-                        alt=""
-                        className="h-full w-full object-cover"
+                        src="/assets/about-team.png"
+                        alt="Équipe CLB KLB"
+                        className="h-full w-full object-cover object-center"
                     />
                 </div>
                 <div className="flex flex-col justify-center">

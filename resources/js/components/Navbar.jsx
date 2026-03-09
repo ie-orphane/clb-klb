@@ -22,9 +22,9 @@ const navLinks = [
     {
         key: 'news',
         hasDropdown: true,
-        fr: 'ACTUALITÉS',
+        fr: 'Actualités',
         ar: 'أخبار',
-        nl: 'NIEUWS',
+        nl: 'Nieuws',
         items: [
             {
                 key: 'events',
@@ -66,6 +66,7 @@ export default function Navbar() {
             : 'fr';
     const [open, setOpen] = useState(false);
     const [newsDropdownOpen, setNewsDropdownOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
     const ref = useRef(null);
     const newsRef = useRef(null);
 
@@ -80,25 +81,39 @@ export default function Navbar() {
             document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    useEffect(() => {
+        if (mobileOpen) document.body.style.overflow = 'hidden';
+        else document.body.style.overflow = '';
+        return () => { document.body.style.overflow = ''; };
+    }, [mobileOpen]);
+
     function setLocale(code) {
         if (code === locale) return;
         router.post('/locale', { locale: code }, { preserveScroll: true });
         setOpen(false);
+        setMobileOpen(false);
     }
+
+    const linkClass = (isActive) =>
+        `text-sm font-medium text-foreground/90 transition-colors hover:text-primary ${isActive ? 'text-primary' : ''}`;
+    const mobileLinkClass = (isActive) =>
+        `block py-3 text-base font-medium transition-colors ${isActive ? 'text-primary' : 'text-foreground hover:text-primary'}`;
 
     return (
         <header className="fixed top-0 right-0 left-0 z-50 bg-cl-white">
             <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:h-20 lg:px-8">
                 <Link href="/" className="flex items-center gap-2">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-alpha text-cl-black">
-                        <span className="text-xs font-bold">CLB KLP</span>
-                    </div>
+                    <img
+                        src="/assets/logo.webp"
+                        alt="CLB KLB"
+                        className="h-9 w-9 shrink-0 object-contain"
+                    />
                     <span className="text-lg font-semibold text-cl-black">
-                        CLB KLP
+                        CLB KLB
                     </span>
                 </Link>
 
-                <ul className="hidden items-center gap-8 md:flex">
+                <ul className="hidden items-center gap-7 lg:flex">
                     {navLinks.map((item) => {
                         const { key, hasDropdown, fr, ar, nl } = item;
                         const href = item.href;
@@ -143,7 +158,7 @@ export default function Navbar() {
                                     </button>
                                     {newsDropdownOpen && (
                                         <ul
-                                            className="absolute start-0 top-full z-50 mt-1 min-w-40 rounded-lg border border-border bg-card py-1 shadow-md"
+                                            className="absolute left-0 top-full z-50 mt-1.5 min-w-48 rounded-xl bg-card py-1.5 shadow-[var(--shadow-card-hover)] ring-1 ring-border"
                                             role="menu"
                                         >
                                             {item.items.map(
@@ -206,12 +221,12 @@ export default function Navbar() {
                     })}
                 </ul>
 
-                <div className="flex items-center gap-4" ref={ref}>
-                    <div className="relative">
+                <div className="flex items-center gap-3" ref={ref}>
+                    <div className="relative hidden lg:block">
                         <button
                             type="button"
                             onClick={() => setOpen((v) => !v)}
-                            className="flex items-center gap-1 text-sm font-medium text-cl-black transition hover:opacity-90"
+                            className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-sm font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground"
                             aria-label="Langue"
                             aria-expanded={open}
                         >
@@ -232,13 +247,13 @@ export default function Navbar() {
                             </svg>
                         </button>
                         {open && (
-                            <ul className="absolute end-0 top-full z-50 mt-1 min-w-32 rounded-lg border border-border bg-card py-1 shadow-md">
+                            <ul className="absolute right-0 top-full z-50 mt-1.5 min-w-32 rounded-xl bg-card py-1.5 shadow-[var(--shadow-card-hover)] ring-1 ring-border">
                                 {LOCALES.map((l) => (
                                     <li key={l.code}>
                                         <button
                                             type="button"
                                             onClick={() => setLocale(l.code)}
-                                            className={`block w-full px-4 py-2 text-start text-sm transition hover:bg-muted ${l.code === locale ? 'font-medium text-foreground' : 'text-muted-foreground'}`}
+                                            className={`block w-full px-4 py-2 text-left text-sm transition hover:bg-muted ${l.code === locale ? 'font-medium text-foreground' : 'text-muted-foreground'}`}
                                         >
                                             {l.label}
                                         </button>
@@ -258,8 +273,93 @@ export default function Navbar() {
                             as="span"
                         />
                     </Link>
+
+                    <button
+                        type="button"
+                        onClick={() => setMobileOpen((v) => !v)}
+                        className="flex h-10 w-10 items-center justify-center rounded-lg text-foreground transition hover:bg-muted lg:hidden"
+                        aria-label="Menu"
+                        aria-expanded={mobileOpen}
+                    >
+                        {mobileOpen ? (
+                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        ) : (
+                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        )}
+                    </button>
                 </div>
             </nav>
+
+            {mobileOpen && (
+                <div className="fixed inset-0 top-16 z-40 bg-background/95 backdrop-blur-sm lg:hidden">
+                    <div className="mx-auto max-w-6xl px-4 py-6">
+                        <ul className="space-y-0 border-t border-border pt-4">
+                            {navLinks.map((item) => {
+                                const { key, hasDropdown, fr, ar, nl } = item;
+                                const href = item.href;
+                                if (hasDropdown && item.items) {
+                                    const isActive = item.items.some((i) => window.location.pathname.startsWith(i.href));
+                                    return (
+                                        <li key={key} className="border-b border-border">
+                                            <span className={mobileLinkClass(isActive)}>
+                                                <TransText fr={fr} ar={ar} nl={nl} as="span" />
+                                            </span>
+                                            <ul className="pb-3 pl-4 pt-1">
+                                                {item.items.map(({ key: itemKey, href: itemHref, fr: itemFr, ar: itemAr, nl: itemNl }) => (
+                                                    <li key={itemKey}>
+                                                        <Link
+                                                            href={itemHref}
+                                                            className="block py-2 text-sm text-muted-foreground hover:text-primary"
+                                                            onClick={() => setMobileOpen(false)}
+                                                        >
+                                                            <TransText fr={itemFr} ar={itemAr} nl={itemNl} as="span" />
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </li>
+                                    );
+                                }
+                                const path = href === '/' ? '/' : href;
+                                const isActive = path !== '/' ? window.location.pathname.startsWith(path) : window.location.pathname === '/';
+                                return (
+                                    <li key={key} className="border-b border-border">
+                                        <Link href={href} className={mobileLinkClass(isActive)} onClick={() => setMobileOpen(false)}>
+                                            <TransText fr={fr} ar={ar} nl={nl} as="span" />
+                                        </Link>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        <div className="mt-6 flex flex-col gap-3">
+                            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Langue</p>
+                            <div className="flex gap-2">
+                                {LOCALES.map((l) => (
+                                    <button
+                                        key={l.code}
+                                        type="button"
+                                        onClick={() => setLocale(l.code)}
+                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition ${l.code === locale ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
+                                    >
+                                        {l.label}
+                                    </button>
+                                ))}
+                            </div>
+                            <Link
+                                href="#"
+                                className="mt-2 inline-block rounded-lg bg-primary px-4 py-3 text-center text-sm font-medium text-primary-foreground"
+                                onClick={() => setMobileOpen(false)}
+                            >
+                                <TransText fr="Devenir membre" ar="كن عضواً" nl="Lid worden" as="span" />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            )}
         </header>
     );
 }

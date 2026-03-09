@@ -87,7 +87,7 @@ export default function StrategicObjectivesSection() {
                 <div className="mx-auto mt-4 h-0.5 w-16 rounded-full bg-alpha" />
                 <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {objectives.map((obj, i) => (
-                        <ObjectiveBlock key={i} {...obj} />
+                        <ObjectiveBlock key={i} {...obj} index={i} />
                     ))}
                 </div>
             </div>

@@ -106,6 +106,7 @@ export default function ObjectiveBlock({ iconKey, title, description }) {
         ),
     };
     const icon = icons[iconKey] || icons.promote;
+
     return (
         <div className="flex flex-col items-center rounded-xl border border-border bg-card px-6 py-10 text-center shadow-sm transition hover:shadow-md">
             <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-alpha/5 text-alpha">

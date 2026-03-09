@@ -9,7 +9,7 @@
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Outfit', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
@@ -63,50 +63,56 @@
     /* CLB brand colors (see :root) */
     --color-alpha: var(--color-alpha);
     --color-cl-beta: var(--color-cl-beta);
-    --color-cl-black: var(--color--cl-black);
+    --color-cl-black: var(--color-cl-black);
     --color-cl-white: var(--color-cl-white);
     --color-cl-blue-light: var(--color-cl-blue-light);
+    --color-cl-yellow: var(--color-cl-yellow);
 }
 
 :root {
-    --color-alpha: #e81123;
-    --color-cl-beta: #a1a3a8;
-    --color--cl-black: #000000;
+    /* Belgium flag colors: black, yellow, red */
+    --color-alpha: #ED2939;
+    --color-cl-beta: #64748b;
+    --color-cl-black: #000000;
     --color-cl-white: #ffffff;
-    --color-cl-blue-light: #e8f1f8;
-    --background: oklch(1 0 0);
+    --color-cl-blue-light: #FFF9E6;
+    --color-cl-yellow: #FDDA24;
+    /* Theme: Belgian – black, yellow, red */
+    --background: oklch(0.99 0.004 95);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
+    --primary: oklch(0.55 0.22 27);
+    --primary-foreground: oklch(0.99 0 0);
+    --secondary: oklch(0.97 0.03 95);
+    --secondary-foreground: oklch(0.21 0.02 50);
+    --muted: oklch(0.965 0.02 95);
+    --muted-foreground: oklch(0.45 0.02 50);
+    --accent: oklch(0.94 0.08 95);
+    --accent-foreground: oklch(0.35 0.12 85);
     --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.87 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
+    --destructive-foreground: oklch(0.99 0 0);
+    --border: oklch(0.92 0.02 95);
+    --input: oklch(0.92 0.02 95);
+    --ring: oklch(0.55 0.22 27);
+    --chart-1: oklch(0.55 0.22 27);
+    --chart-2: oklch(0.88 0.18 95);
+    --chart-3: oklch(0.25 0 0);
+    --chart-4: oklch(0.55 0.22 27);
+    --chart-5: oklch(0.88 0.18 95);
+    --radius: 0.875rem;
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04);
+    --shadow-card-hover: 0 8px 30px -6px rgb(0 0 0 / 0.08);
+    --sidebar: oklch(0.99 0.004 95);
     --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.87 0 0);
+    --sidebar-primary: oklch(0.55 0.22 27);
+    --sidebar-primary-foreground: oklch(0.99 0 0);
+    --sidebar-accent: oklch(0.94 0.08 95);
+    --sidebar-accent-foreground: oklch(0.35 0.12 85);
+    --sidebar-border: oklch(0.92 0.02 95);
+    --sidebar-ring: oklch(0.55 0.22 27);
 }
 
 .dark {
@@ -153,13 +159,46 @@
     }
 }
 
+@keyframes carousel-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@layer components {
+    .carousel-loop {
+        display: flex;
+        width: max-content;
+        animation-name: carousel-scroll;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-duration: 20s;
+    }
+
+    .carousel-loop--slow {
+        animation-duration: 25s;
+    }
+
+    .group\/carousel:hover .carousel-loop {
+        animation-play-state: paused;
+    }
+}
+
 @layer base {
     * {
         @apply border-border;
     }
 
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
         @apply bg-background text-foreground;
+        font-feature-settings: "ss01", "ss02", "cv01", "cv02";
     }
 
     .tiptap-content h2 {
