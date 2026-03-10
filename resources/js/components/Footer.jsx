@@ -1,9 +1,11 @@
 import { Link } from '@inertiajs/react';
+import { CONTACT_INFO, SOCIAL_MEDIA_LINKS } from '@/lib/consts';
+import { TransText } from '@/components';
 
 const socialLinks = [
     {
         name: 'Facebook',
-        href: 'https://www.facebook.com/clb.klb',
+        href: SOCIAL_MEDIA_LINKS.facebook,
         Icon: ({ className }) => (
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +18,7 @@ const socialLinks = [
     },
     {
         name: 'Instagram',
-        href: 'https://www.instagram.com/clb_klb',
+        href: SOCIAL_MEDIA_LINKS.instagram,
 
         Icon: ({ className }) => (
             <svg
@@ -30,7 +32,7 @@ const socialLinks = [
     },
     {
         name: 'YouTube',
-        href: 'https://www.youtube.com/@cercleclb-klb4504',
+        href: SOCIAL_MEDIA_LINKS.youtube,
 
         Icon: ({ className }) => (
             <svg
@@ -44,7 +46,7 @@ const socialLinks = [
     },
     {
         name: 'LinkedIn',
-        href: 'https://www.linkedin.com/company/clb-klb',
+        href: SOCIAL_MEDIA_LINKS.linkedin,
 
         Icon: ({ className }) => (
             <svg
@@ -58,7 +60,7 @@ const socialLinks = [
     },
     {
         name: 'X',
-        href: 'https://twitter.com/clb_klb',
+        href: SOCIAL_MEDIA_LINKS.x,
 
         Icon: ({ className }) => (
             <svg
@@ -91,11 +93,13 @@ export default function Footer() {
                                 CLB KLB
                             </span>
                         </Link>
-                        <p className="text-sm text-cl-white/90">
-                            Le cercle des lauréats de Belgique, association à
-                            but non lucratif régie par la loi du 1er juillet
-                            1901.
-                        </p>
+                        <TransText
+                            ar="دائرة خريجي بلجيكا، جمعية غير ربحية تخضع لقانون 1 يوليو 1901."
+                            fr="Le cercle des lauréats de Belgique, association à but non lucratif régie par la loi du 1er juillet 1901."
+                            nl="De kring van Belgische laureaten, een vereniging zonder winstoogmerk geregeld door de wet van 1 juli 1901."
+                            as="p"
+                            className="text-sm text-cl-white/90"
+                        />
                     </div>
                     <div className="flex gap-4">
                         {socialLinks.map(({ name, href, Icon }) => (
@@ -115,14 +119,25 @@ export default function Footer() {
             </div>
             <div className="border-t border-white/10">
                 <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-4 text-sm text-cl-white/80 sm:flex-row lg:px-8">
-                    <span>© 2023 CLB KLP. Tous droits réservés.</span>
+                    <TransText
+                        ar="© 2026 CLB KLP. جميع الحقوق محفوظة."
+                        fr="© 2026 CLB KLP. Tous droits réservés."
+                        nl="© 2026 CLB KLP. Alle rechten voorbehouden."
+                        as="p"
+                    />
                     <div className="flex items-center gap-4">
-                        <span>Téléphone: +212 662 50 1470</span>
                         <a
-                            href="mailto:contact@clbklp.ma"
+                            href={`tel:${CONTACT_INFO.phone}`}
+                            dir="ltr"
                             className="hover:underline"
                         >
-                            contact@clbklp.ma
+                            {CONTACT_INFO.phone}
+                        </a>
+                        <a
+                            href={`mailto:${CONTACT_INFO.email}`}
+                            className="hover:underline"
+                        >
+                            {CONTACT_INFO.email}
                         </a>
                     </div>
                 </div>

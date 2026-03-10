@@ -23,6 +23,7 @@ function ContactIndex({ contact }) {
                     title={
                         <TransText fr="Contact" ar="اتصل بنا" nl="Contact" />
                     }
+                    backgroundImage="assets/page-hero.webp"
                 />
                 <ContactHeroSection />
                 <ContactFormSection />

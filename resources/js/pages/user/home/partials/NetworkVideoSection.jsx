@@ -1,95 +1,46 @@
 import { Link } from '@inertiajs/react';
-import { useState } from 'react';
-import { usePage } from '@inertiajs/react';
-import TransText from '@/components/TransText';
-
-const LOCALES = ['fr', 'ar', 'nl'];
-const DEFAULT = 'fr';
-
-function pick(obj, locale) {
-    if (obj == null || typeof obj !== 'object') return obj;
-    const loc = LOCALES.includes(locale) ? locale : DEFAULT;
-    return obj[loc] ?? obj.fr ?? obj.ar ?? obj.nl ?? '';
-}
-
-const slides = [
-    {
-        title: {
-            fr: 'Un réseau au service des lauréats de Belgique',
-            ar: 'شبكة في خدمة خريجي بلجيكا',
-            nl: 'Een netwerk ten dienste van Belgische laureaten',
-        },
-        body: {
-            fr: "Plongez au cœur de notre communauté d'anciens élèves et bienfaiteurs. Les CLB-KLB, l'association fédératrice qui vous ouvre les bras sur le Maroc.",
-            ar: 'انغمسوا في قلب مجتمعنا من الخريجين والمحسنين. CLB-KLB، الجمعية الموحدة التي تفتح لكم ذراعيها في المغرب.',
-            nl: 'Duik in het hart van onze gemeenschap van alumni en weldoeners. CLB-KLB, de vereniging die u de armen opent in Marokko.',
-        },
-        cta: { fr: 'EN SAVOIR PLUS', ar: 'اعرف المزيد', nl: 'MEER WETEN' },
-        ctaHref: '/a-propos',
-    },
-    {
-        title: {
-            fr: 'Deuxième slide',
-            ar: 'الشريحة الثانية',
-            nl: 'Tweede slide',
-        },
-        body: {
-            fr: 'Contenu de la deuxième slide — à personnaliser selon vos besoins.',
-            ar: 'محتوى الشريحة الثانية — يمكن تخصيصه حسب احتياجاتكم.',
-            nl: 'Inhoud van de tweede slide — aan te passen naar wens.',
-        },
-        cta: { fr: 'EN SAVOIR PLUS', ar: 'اعرف المزيد', nl: 'MEER WETEN' },
-        ctaHref: '#',
-    },
-];
-
-const videoTitle = {
-    fr: 'Présentation Officielle du Cercle des Lauréats de Belgique (CLB-KLB)',
-    ar: 'العرض الرسمي لدائرة خريجي بلجيكا (CLB-KLB)',
-    nl: 'Officiële presentatie van de Kring van Belgische Laureaten (CLB-KLB)',
-};
-const videoPlaceholderUrl =
-    'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80';
-const videoUrl =
-    'https://www.youtube.com/embed/fdojEYgJuyE?si=JIhYM8UjExGMiRgz';
+import { TransText } from '@/components';
+import { CONTACT_INFO } from '@/lib/consts';
 
 export default function NetworkVideoSection() {
-    const { props } = usePage();
-    const locale =
-        props.locale && LOCALES.includes(props.locale) ? props.locale : DEFAULT;
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const slide = slides[currentSlide];
-    const totalSlides = slides.length;
-    const slideTitle = pick(slide.title, locale);
-    const slideBody = pick(slide.body, locale);
-    const slideCta = pick(slide.cta, locale);
-    const videoTitleText = pick(videoTitle, locale);
-
     return (
         <section className="relative overflow-hidden bg-cl-black py-16 lg:py-24">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(232,17,35,0.12),transparent)]" />
             <div className="relative mx-auto grid max-w-7xl gap-12 px-4 lg:grid-cols-2 lg:gap-16 lg:px-8">
                 <div className="flex flex-col justify-center">
-                    <p className="text-xs font-medium tracking-wider text-alpha uppercase">
-                        <TransText
-                            fr="À propos de nous"
-                            ar="عنا"
-                            nl="Over ons"
-                        />
-                    </p>
-                    <h2 className="mt-3 text-3xl font-bold tracking-tight text-cl-white lg:text-4xl">
-                        {slideTitle}
-                    </h2>
-                    <p className="mt-4 text-muted">{slideBody}</p>
+                    <TransText
+                        fr="À propos de nous"
+                        ar="عنا"
+                        nl="Over ons"
+                        as="p"
+                        className="text-xs font-medium tracking-wider text-alpha uppercase"
+                    />
+                    <TransText
+                        fr="Un réseau au service des lauréats de Belgique"
+                        ar="شبكة في خدمة خريجي بلجيكا"
+                        nl="Een netwerk ten dienste van Belgische laureaten"
+                        as="h2"
+                        className="mt-3 text-3xl font-bold tracking-tight text-cl-white lg:text-4xl"
+                    />
+                    <TransText
+                        fr="Plongez au cœur de notre communauté d'anciens élèves et bienfaiteurs. Les CLB-KLB, l'association fédératrice qui vous ouvre les bras sur le Maroc."
+                        ar="انغمسوا في قلب مجتمعنا من الخريجين والمحسنين. CLB-KLB، الجمعية الموحدة التي تفتح لكم ذراعيها في المغرب."
+                        nl="Duik in het hart van onze gemeenschap van alumni en weldoeners. CLB-KLB, de vereniging die u de armen opent in Marokko."
+                        as="p"
+                        className="mt-4 text-muted"
+                    />
 
                     <div className="mt-8 grid grid-cols-2 items-center gap-8">
                         <Link
-                            href={slide.ctaHref}
+                            href="/a-propos"
                             className="flex-1 rounded-full bg-alpha px-12 py-4 text-center text-sm font-semibold text-cl-white transition hover:bg-alpha/85"
                         >
-                            {slideCta}
+                            <TransText
+                                fr="EN SAVOIR PLUS"
+                                ar="اعرف المزيد"
+                                nl="MEER WETEN"
+                            />
                         </Link>
-
                         <div className="flex flex-1 items-center gap-4">
                             <div className="flex size-10 items-center justify-center rounded-full bg-alpha/20">
                                 <svg
@@ -102,56 +53,11 @@ export default function NetworkVideoSection() {
                                 </svg>
                             </div>
 
-                            <p className="font- text-lg text-white">
-                                +212 6 66 17 47 12
+                            <p className="text-lg text-white" dir="ltr">
+                                {CONTACT_INFO.phone}
                             </p>
                         </div>
                     </div>
-                    {/* <div className="mt-8 flex items-center gap-2 text-sm text-cl-white/70">
-                        <button
-                            type="button"
-                            onClick={() =>
-                                setCurrentSlide((s) =>
-                                    s === 0 ? totalSlides - 1 : s - 1,
-                                )
-                            }
-                            className="flex h-10 w-10 items-center justify-center rounded-full border border-cl-white/30 text-cl-white transition hover:border-alpha hover:bg-alpha/20"
-                            aria-label={
-                                locale === 'fr'
-                                    ? 'Slide précédent'
-                                    : locale === 'ar'
-                                      ? 'الشريحة السابقة'
-                                      : 'Vorige slide'
-                            }
-                        >
-                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        <span className="min-w-[4rem] text-center text-sm font-medium text-cl-white/80">
-                            {currentSlide + 1} / {totalSlides}
-                        </span>
-                        <button
-                            type="button"
-                            onClick={() =>
-                                setCurrentSlide((s) =>
-                                    s === totalSlides - 1 ? 0 : s + 1,
-                                )
-                            }
-                            className="flex h-10 w-10 items-center justify-center rounded-full border border-cl-white/30 text-cl-white transition hover:border-alpha hover:bg-alpha/20"
-                            aria-label={
-                                locale === 'fr'
-                                    ? 'Slide suivant'
-                                    : locale === 'ar'
-                                      ? 'الشريحة التالية'
-                                      : 'Volgende slide'
-                            }
-                        >
-                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div> */}
                 </div>
                 <iframe
                     className="aspect-video w-full"
@@ -162,32 +68,6 @@ export default function NetworkVideoSection() {
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen
                 ></iframe>
-                {/* <div className="relative aspect- overflow-  rounded-xl bg-cl-black">
-                    <a
-                        href={videoUrl || '#'}
-                        target={videoUrl ? '_blank' : undefined}
-                        rel={videoUrl ? 'noopener noreferrer' : undefined}
-                        className="absolute inset-0 flex items-center justify-center bg-cl-black"
-                    >
-                        <img
-                            src={videoPlaceholderUrl}
-                            alt=""
-                            className="absolute inset-0 object-cover opacity-80"
-                        />
-                        <span className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-alpha/90 text-cl-white transition hover:bg-alpha">
-                            <svg
-                                className="ml-1 h-8 w-8"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path d="M8 5v14l11-7z" />
-                            </svg>
-                        </span>
-                    </a>
-                    <p className="absolute right-0 bottom-0 left-0 bg-cl-black/80 p-4 text-sm text-cl-white">
-                        {videoTitleText}
-                    </p>
-                </div> */}
             </div>
         </section>
     );

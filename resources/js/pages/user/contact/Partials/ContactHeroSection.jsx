@@ -1,5 +1,6 @@
 import { Phone, MapPin, Mail } from 'lucide-react';
-import TransText from '@/components/TransText';
+import { TransText } from '@/components';
+import { CONTACT_INFO } from '@/lib/consts';
 
 const contactCards = [
     {
@@ -10,7 +11,7 @@ const contactCards = [
             ar: 'من الاثنين إلى الجمعة من 9 صباحاً حتى 6 مساءً.',
             nl: 'Maandag tot vrijdag van 9u tot 18u.',
         },
-        value: '+212 6 66 17 47 12',
+        value: CONTACT_INFO.phone,
         type: 'phone',
     },
     {
@@ -21,7 +22,7 @@ const contactCards = [
             ar: 'تعالوا لزيارتنا.',
             nl: 'Kom ons ontmoeten.',
         },
-        value: '4, Rue Jaâfar Assadik - Agdal, Rabat - Maroc',
+        value: CONTACT_INFO.address,
         type: 'address',
     },
     {
@@ -32,7 +33,7 @@ const contactCards = [
             ar: 'سيرد فريقنا بسرعة.',
             nl: 'Ons team antwoordt u snel.',
         },
-        value: 'contact@clb-klb.com',
+        value: CONTACT_INFO.email,
         type: 'email',
     },
 ];
@@ -67,22 +68,16 @@ export default function ContactHeroSection() {
                                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-alpha text-cl-white">
                                     <Icon className="h-5 w-5" aria-hidden />
                                 </div>
-                                <p className="mt-4 text-xs font-semibold tracking-wider text-foreground uppercase">
-                                    <TransText
-                                        fr={title.fr}
-                                        ar={title.ar}
-                                        nl={title.nl}
-                                        as="span"
-                                    />
-                                </p>
-                                <p className="mt-1 text-sm text-muted-foreground">
-                                    <TransText
-                                        fr={subtitle.fr}
-                                        ar={subtitle.ar}
-                                        nl={subtitle.nl}
-                                        as="span"
-                                    />
-                                </p>
+                                <TransText
+                                    {...title}
+                                    as="p"
+                                    className="mt-4 text-xs font-semibold tracking-wider text-foreground uppercase"
+                                />
+                                <TransText
+                                    className="mt-1 text-sm text-muted-foreground"
+                                    {...subtitle}
+                                    as="p"
+                                />
                                 <p className="mt-2 font-semibold text-foreground">
                                     {type === 'email' ? (
                                         <a
@@ -95,6 +90,7 @@ export default function ContactHeroSection() {
                                         <a
                                             href={`tel:${value.replace(/\s/g, '')}`}
                                             className="hover:underline"
+                                            dir="ltr"
                                         >
                                             {value}
                                         </a>
