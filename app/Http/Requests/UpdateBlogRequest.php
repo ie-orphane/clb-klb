@@ -21,12 +21,14 @@ class UpdateBlogRequest extends FormRequest
             'title.ar' => ['required', 'string', 'max:255'],
             'title.fr' => ['required', 'string', 'max:255'],
             'title.nl' => ['required', 'string', 'max:255'],
-            'slug.ar' => ['required', 'string', 'max:255'],
-            'slug.fr' => ['required', 'string', 'max:255'],
-            'slug.nl' => ['required', 'string', 'max:255'],
+            'category.ar' => ['required', 'string', 'max:255'],
+            'category.fr' => ['required', 'string', 'max:255'],
+            'category.nl' => ['required', 'string', 'max:255'],
             'body.ar' => ['required', 'string'],
             'body.fr' => ['required', 'string'],
             'body.nl' => ['required', 'string'],
+            'author' => ['nullable', 'string', 'max:255'],
+            'is_published' => ['nullable', 'boolean'],
         ];
     }
 }

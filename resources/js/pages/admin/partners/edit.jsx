@@ -1,5 +1,4 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,19 +26,16 @@ export default function AdminPartnersEdit({ partner }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${partner.name}`} />
+            <Head title="Edit partner" />
             <div className="flex h-full flex-1 flex-col gap-6 p-4 lg:p-6">
                 <div className="flex items-center gap-4">
-                    <Button variant="ghost" size="icon" className="shrink-0 rounded-lg" asChild>
-                        <Link href="/admin/partners"><ArrowLeft className="h-4 w-4" /></Link>
-                    </Button>
                     <div>
                         <h1 className="text-2xl font-bold italic text-foreground lg:text-3xl">Edit partner</h1>
                         <p className="mt-1 text-sm text-muted-foreground">Update logo and details.</p>
                     </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="mx-auto w-full max-w-2xl space-y-6">
+                <form onSubmit={handleSubmit} className="w-full max-w-2xl space-y-6">
                     <Card>
                         <CardHeader>
                             <CardTitle>Details</CardTitle>
@@ -78,11 +74,11 @@ export default function AdminPartnersEdit({ partner }) {
                         </CardContent>
                     </Card>
                     <div className="flex flex-wrap gap-3">
-                        <Button type="submit" disabled={processing} className="rounded-lg bg-alpha text-white hover:bg-alpha/90">
-                            {processing ? 'Saving…' : 'Save changes'}
-                        </Button>
                         <Button type="button" variant="outline" className="rounded-lg" asChild>
                             <Link href="/admin/partners">Cancel</Link>
+                        </Button>
+                        <Button type="submit" disabled={processing} className="rounded-lg bg-alpha text-white hover:bg-alpha/90">
+                            {processing ? 'Saving…' : 'Save changes'}
                         </Button>
                     </div>
                 </form>

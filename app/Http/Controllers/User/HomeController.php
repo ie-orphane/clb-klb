@@ -27,9 +27,8 @@ class HomeController extends Controller
         $locale = $this->locale();
 
         $latestBlogs = Blog::query()
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->orderByDesc('published_at')
+            ->where('is_published', true)
+            ->orderByDesc('created_at')
             ->take(3)
             ->get()
             ->map(function (Blog $blog) use ($locale) {
@@ -39,7 +38,7 @@ class HomeController extends Controller
                     'title' => $blog->getTranslation('title', $locale),
                     'excerpt' => $blog->getTranslation('description', $locale),
                     'image_url' => $imageUrl,
-                    'published_at' => $blog->published_at?->translatedFormat('j F Y'),
+                    'published_at' => $blog->created_at?->translatedFormat('j F Y'),
                     'url' => '/blogs/' . $blog->id,
                 ];
             })

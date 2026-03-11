@@ -15,6 +15,14 @@ use Inertia\Response;
 class BlogController extends Controller
 {
     /**
+     * Show blog creation page.
+     */
+    public function create(): Response
+    {
+        return Inertia::render('admin/blog/create');
+    }
+
+    /**
      * List blogs for admin table (full locale data for edit modal).
      */
     public function index(Request $request): Response
@@ -32,10 +40,12 @@ class BlogController extends Controller
                     'id' => $blog->id,
                     'title' => $blog->title ?? [],
                     'slug' => $blog->slug ?? [],
+                    'category' => $blog->category ?? [],
                     'body' => $blog->body ?? [],
+                    'author' => $blog->author,
                     'image' => $blog->image ? asset('storage/' . $blog->image) : null,
-                    'status' => $blog->published_at ? 'published' : 'draft',
-                    'published_at' => $blog->published_at?->toIso8601String(),
+                    'is_published' => (bool) $blog->is_published,
+                    'status' => $blog->is_published ? 'published' : 'draft',
                     'created_at' => $blog->created_at->toIso8601String(),
                     'title_active' => $blog->getTranslation('title', $locale),
                 ];
@@ -46,6 +56,25 @@ class BlogController extends Controller
         return Inertia::render('admin/blog/index', [
             'blogs' => $blogs,
             'activeLocale' => $locale,
+        ]);
+    }
+
+    /**
+     * Show blog edit page.
+     */
+    public function edit(Blog $blog): Response
+    {
+        return Inertia::render('admin/blog/edit', [
+            'blog' => [
+                'id' => $blog->id,
+                'title' => $blog->title ?? ['ar' => '', 'fr' => '', 'nl' => ''],
+                'slug' => $blog->slug ?? ['ar' => '', 'fr' => '', 'nl' => ''],
+                'category' => $blog->category ?? ['ar' => '', 'fr' => '', 'nl' => ''],
+                'body' => $blog->body ?? ['ar' => '', 'fr' => '', 'nl' => ''],
+                'author' => $blog->author,
+                'is_published' => (bool) $blog->is_published,
+                'image' => $blog->image ? asset('storage/' . $blog->image) : null,
+            ],
         ]);
     }
 
@@ -78,8 +107,14 @@ class BlogController extends Controller
                 'fr' => $validated['body']['fr'] ?? '',
                 'nl' => $validated['body']['nl'] ?? '',
             ],
+            'category' => [
+                'ar' => $validated['category']['ar'] ?? '',
+                'fr' => $validated['category']['fr'] ?? '',
+                'nl' => $validated['category']['nl'] ?? '',
+            ],
+            'author' => $validated['author'] ?? null,
+            'is_published' => (bool) ($validated['is_published'] ?? false),
             'description' => ['ar' => '', 'fr' => '', 'nl' => ''],
-            'published_at' => now(),
         ]);
 
         return redirect()->route('admin.blogs.index')->with('success', 'Blog created.');
@@ -117,6 +152,13 @@ class BlogController extends Controller
                 'fr' => $validated['body']['fr'] ?? '',
                 'nl' => $validated['body']['nl'] ?? '',
             ],
+            'category' => [
+                'ar' => $validated['category']['ar'] ?? '',
+                'fr' => $validated['category']['fr'] ?? '',
+                'nl' => $validated['category']['nl'] ?? '',
+            ],
+            'author' => $validated['author'] ?? null,
+            'is_published' => (bool) ($validated['is_published'] ?? false),
         ]);
 
         return redirect()->route('admin.blogs.index')->with('success', 'Blog updated.');

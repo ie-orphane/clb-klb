@@ -27,7 +27,7 @@ class BlogController extends Controller
             'excerpt' => $blog->getTranslation('description', $locale),
             'body' => $blog->getTranslation('body', $locale),
             'image_url' => $imageUrl,
-            'published_at' => $blog->published_at?->translatedFormat('j F Y'),
+            'published_at' => $blog->created_at?->translatedFormat('j F Y'),
             'url' => '/blogs/' . $blog->id,
         ];
     }
@@ -40,9 +40,8 @@ class BlogController extends Controller
         $perPage = 6;
 
         $paginated = Blog::query()
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->orderByDesc('published_at')
+            ->where('is_published', true)
+            ->orderByDesc('created_at')
             ->paginate($perPage);
 
         $blogs = $paginated->getCollection()->map(fn (Blog $blog) => $this->blogToArray($blog))->values()->all();
@@ -87,8 +86,7 @@ class BlogController extends Controller
     public function show(int $id): Response
     {
         $blog = Blog::query()
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
+            ->where('is_published', true)
             ->find($id);
 
         if (! $blog) {

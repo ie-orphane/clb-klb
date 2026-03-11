@@ -1,76 +1,173 @@
-import { Head } from '@inertiajs/react';
+import { useState } from 'react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { FileText, Plus, Trash2, ImageOff, Edit } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-import BlogsTable from './partials/BlogsTable';
-import CreateBlogModal from './partials/CreateBlogModal';
-import EditBlogModal from './partials/EditBlogModal';
-import { useState } from 'react';
+import { Table } from '@/components/Table';
+import ConfirmDeleteDialog from '@/components/confirm-delete-dialog';
+import AlertSuccess from '@/components/alert-success';
 
-export default function AdminBlogIndex({ blogs = [], activeLocale = 'fr' }) {
-    const [createOpen, setCreateOpen] = useState(false);
-    const [editingBlog, setEditingBlog] = useState(null);
+const breadcrumbs = [
+    { title: 'Dashboard', href: '/admin/dashboard' },
+    { title: 'Blogs', href: '/admin/blogs' },
+];
+
+export default function AdminBlogIndex({ blogs = [] }) {
+    const { flash } = usePage().props;
+    const [deleteId, setDeleteId] = useState(null);
+    const [deleting, setDeleting] = useState(false);
+
+    const handleDelete = () => {
+        setDeleting(true);
+        router.delete(`/admin/blogs/${deleteId}`, {
+            onFinish: () => {
+                setDeleting(false);
+                setDeleteId(null);
+            },
+        });
+    };
 
     return (
-        <>
-            <AppLayout>
-                <Head title="Articles du blog" />
-                <div className="w-full pt-6 pr-6 pb-6 pl-6">
-                    <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <h1 className="text-2xl font-semibold tracking-tight">
-                                Articles du blog
-                            </h1>
-                            <p className="mt-1 text-sm text-muted-foreground">
-                                Gérez les articles et le contenu du blog.
-                            </p>
-                        </div>
-                        <Button
-                            onClick={() => setCreateOpen(true)}
-                            className="w-fit shrink-0"
-                        >
-                            Nouvel article
-                        </Button>
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Blogs" />
+            <div className="flex h-full flex-1 flex-col gap-6 p-4 lg:p-6">
+                {/* Page Header */}
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-2xl font-bold text-foreground italic lg:text-3xl">
+                            {blogs.length}{' '}
+                            {blogs.length <= 1 ? 'Blog' : 'Blogs'}
+                        </h1>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            Manage your blog articles and content.
+                        </p>
                     </div>
-
-                    <Card>
-                        <CardHeader className="pb-4">
-                            <CardTitle className="text-base">
-                                Liste des articles
-                            </CardTitle>
-                            <CardDescription>
-                                {blogs.length === 0
-                                    ? 'Aucun article pour le moment.'
-                                    : `${blogs.length} article${blogs.length > 1 ? 's' : ''}`}
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="px-6 pb-6">
-                            <BlogsTable
-                                blogs={blogs}
-                                activeLocale={activeLocale}
-                                onEdit={setEditingBlog}
-                                onDeleteSuccess={() => {}}
-                            />
-                        </CardContent>
-                    </Card>
+                    <Button
+                        asChild
+                        className="bg-alpha text-white shadow-md hover:bg-alpha/90"
+                    >
+                        <Link href="/admin/blogs/create">
+                            <Plus className="mr-2 h-4 w-4" />
+                            New Article
+                        </Link>
+                    </Button>
                 </div>
 
-                <CreateBlogModal
-                    open={createOpen}
-                    onOpenChange={setCreateOpen}
+                {/* Blogs Table */}
+                <Table
+                    data={blogs}
+                    getRowKey={(b) => b.id}
+                    columns={[
+                        {
+                            header: 'Thumbnail',
+                            cellClassName: 'px-4 py-3',
+                            headerClassName: 'px-4 py-4',
+                            render: (b) =>
+                                b.image ? (
+                                    <div className="aspect-16/7 w-40 overflow-hidden rounded-lg border border-border bg-muted">
+                                        <img
+                                            src={b.image}
+                                            alt=""
+                                            className="h-full w-full object-cover"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="flex aspect-16/7 w-40 items-center justify-center rounded-lg border border-dashed border-border bg-muted text-xs text-muted-foreground">
+                                        <ImageOff className="size-4" />
+                                    </div>
+                                ),
+                        },
+                        {
+                            header: 'Title',
+                            cellClassName: 'font-semibold text-foreground',
+                            render: (b) => b.title?.fr ?? 'Untitled',
+                        },
+                        {
+                            header: 'Category',
+                            render: (b) => (
+                                <span className="inline-block rounded-full bg-alpha/10 px-2.5 py-0.5 text-xs font-medium text-alpha">
+                                    {b.category?.fr || '—'}
+                                </span>
+                            ),
+                        },
+                        {
+                            header: 'Author',
+                            render: (b) => b.author || '—',
+                        },
+                        {
+                            header: 'Status',
+                            render: (b) => (
+                                <span
+                                    className={
+                                        b.is_published
+                                            ? 'inline-block rounded-full bg-alpha/10 px-2.5 py-0.5 text-xs font-medium text-alpha'
+                                            : 'inline-block rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground'
+                                    }
+                                >
+                                    {b.is_published
+                                        ? 'Published'
+                                        : 'Draft'}
+                                </span>
+                            ),
+                        },
+                        {
+                            header: 'Actions',
+                            headerClassName: 'text-right',
+                            cellClassName: 'text-right',
+                            render: (b) => (
+                                <div className="flex items-center justify-end gap-2">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="rounded-lg"
+                                        asChild
+                                    >
+                                        <Link
+                                            href={`/admin/blogs/${b.id}/edit`}
+                                        >
+                                            <Edit className="mr-1.5 h-3.5 w-3.5" />
+                                            Edit
+                                        </Link>
+                                    </Button>
+                                    <Button
+                                        variant="destructive"
+                                        size="sm"
+                                        className="rounded-lg"
+                                        onClick={() => setDeleteId(b.id)}
+                                    >
+                                        <Trash2 className="mr-1 h-3.5 w-3.5" />
+                                        Delete
+                                    </Button>
+                                </div>
+                            ),
+                        },
+                    ]}
+                    emptyState={
+                        <>
+                            <FileText className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
+                            <p className="font-medium text-foreground">
+                                No blogs yet
+                            </p>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Create your first blog article to get started.
+                            </p>
+                        </>
+                    }
                 />
-                <EditBlogModal
-                    blog={editingBlog}
-                    open={!!editingBlog}
-                    onOpenChange={(open) => !open && setEditingBlog(null)}
-                />
-            </AppLayout>
-        </>
+            </div>
+
+            <ConfirmDeleteDialog
+                open={deleteId !== null}
+                onOpenChange={(val) => {
+                    if (!val) setDeleteId(null);
+                }}
+                onConfirm={handleDelete}
+                processing={deleting}
+                title="Delete blog"
+                description="This blog article will be permanently deleted. This action cannot be undone."
+            />
+
+            <AlertSuccess message={flash?.success} />
+        </AppLayout>
     );
 }

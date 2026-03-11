@@ -23,8 +23,9 @@ export default function DeleteBlogButton({ blog, onDeleted }) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Delete">
-                    <Trash2Icon className="size-4 text-destructive" />
+                <Button variant="destructive" size="sm" className="rounded-lg" aria-label="Delete">
+                    <Trash2Icon className="mr-1 h-3.5 w-3.5" />
+                    Delete
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>

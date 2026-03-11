@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->string('image')->nullable();
-            $table->json('title');       // { fr, ar, nl }
-            $table->json('slug')->nullable(); // { fr, ar, nl } URL slug per locale
-            $table->json('description'); // { fr, ar, nl }
-            $table->json('body');        // { fr, ar, nl } HTML from Quill
-            $table->timestamp('published_at')->nullable();
+            $table->json('title');
+            $table->json('description');
+            $table->boolean('is_published')->default(false);
+            $table->string('author')->nullable();
+            $table->json('category')->nullable();
+            $table->json('body');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('blogs');
     }
 };

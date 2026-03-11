@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { CalendarDays, Edit, MapPin, Plus, Trash2 } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
+import { Table } from '@/components';
 import { Button } from '@/components/ui/button';
 import ConfirmDeleteDialog from '@/components/confirm-delete-dialog';
 import AlertSuccess from '@/components/alert-success';
@@ -33,10 +34,18 @@ export default function AdminEventIndex({ events }) {
                 {/* Page Header */}
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold italic text-foreground lg:text-3xl">Events</h1>
-                        <p className="mt-1 text-sm text-muted-foreground">Manage and organize your events</p>
+                        <h1 className="text-2xl font-bold text-foreground italic lg:text-3xl">
+                            {events.length}{' '}
+                            {events.length <= 1 ? 'Event' : 'Events'}
+                        </h1>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            Manage and organize your events
+                        </p>
                     </div>
-                    <Button asChild className="bg-alpha text-white shadow-md hover:bg-alpha/90">
+                    <Button
+                        asChild
+                        className="bg-alpha text-white shadow-md hover:bg-alpha/90"
+                    >
                         <Link href="/admin/events/create">
                             <Plus className="mr-2 h-4 w-4" />
                             New Event
@@ -45,86 +54,98 @@ export default function AdminEventIndex({ events }) {
                 </div>
 
                 {/* Events Table */}
-                <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-                    <div className="border-b bg-alpha/5 px-6 py-3">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-alpha">
-                            {events.length} {events.length === 1 ? 'Event' : 'Events'}
-                        </p>
-                    </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm">
-                            <thead className="border-b bg-muted/40 text-xs uppercase tracking-wider text-muted-foreground">
-                                <tr>
-                                    <th className="px-6 py-4 font-semibold">Title</th>
-                                    <th className="px-6 py-4 font-semibold">Category</th>
-                                    <th className="px-6 py-4 font-semibold">Date</th>
-                                    <th className="px-6 py-4 font-semibold">Time</th>
-                                    <th className="px-6 py-4 font-semibold">Location</th>
-                                    <th className="px-6 py-4 font-semibold">Price</th>
-                                    <th className="px-6 py-4 font-semibold text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-border">
-                                {events.length === 0 && (
-                                    <tr>
-                                        <td colSpan={7} className="px-6 py-16 text-center">
-                                            <CalendarDays className="mx-auto mb-3 h-10 w-10 text-cl-beta" />
-                                            <p className="font-medium text-foreground">No events yet</p>
-                                            <p className="mt-1 text-sm text-muted-foreground">Create your first event to get started.</p>
-                                        </td>
-                                    </tr>
-                                )}
-                                {events.map((event) => (
-                                    <tr key={event.id} className="transition-colors hover:bg-alpha/[0.02]">
-                                        <td className="px-6 py-4 font-semibold text-foreground">{event.title?.fr || event.title}</td>
-                                        <td className="px-6 py-4">
-                                            <span className="inline-block rounded-full bg-alpha/10 px-2.5 py-0.5 text-xs font-medium text-alpha">
-                                                {event.categorie?.fr || event.categorie}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 text-muted-foreground">{event.date}</td>
-                                        <td className="px-6 py-4 text-muted-foreground">{event.time}</td>
-                                        <td className="px-6 py-4 text-muted-foreground">
-                                            <span className="inline-flex items-center gap-1">
-                                                <MapPin className="h-3.5 w-3.5" />
-                                                {event.location}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span className="font-semibold text-foreground">
-                                                {event.price > 0 ? `${event.price} DH` : 'Free'}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center justify-end gap-2">
-                                                <Button variant="outline" size="sm" className="rounded-lg" asChild>
-                                                    <Link href={`/admin/events/${event.id}/edit`}>
-                                                        <Edit className="mr-1 h-3.5 w-3.5" />
-                                                        Edit
-                                                    </Link>
-                                                </Button>
-                                                <Button
-                                                    variant="destructive"
-                                                    size="sm"
-                                                    className="rounded-lg"
-                                                    onClick={() => setDeleteId(event.id)}
-                                                >
-                                                    <Trash2 className="mr-1 h-3.5 w-3.5" />
-                                                    Delete
-                                                </Button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <Table
+                    data={events}
+                    columns={[
+                        {
+                            header: 'Title',
+                            cellClassName: 'font-semibold text-foreground',
+                            render: (event) => event.title.fr,
+                        },
+                        {
+                            header: 'Category',
+                            render: (event) => (
+                                <span className="inline-block rounded-full bg-alpha/10 px-2.5 py-0.5 text-xs font-medium text-alpha">
+                                    {event.categorie.fr}
+                                </span>
+                            ),
+                        },
+                        {
+                            header: 'Date',
+                            render: (event) => event.date,
+                        },
+                        {
+                            header: 'Time',
+                            render: (event) => event.time,
+                        },
+                        {
+                            header: 'Location',
+                            render: (event) => (
+                                <span className="inline-flex items-center gap-1">
+                                    <MapPin className="h-3.5 w-3.5" />
+                                    {event.location}
+                                </span>
+                            ),
+                        },
+                        {
+                            header: 'Price',
+                            cellClassName: 'font-semibold text-foreground',
+                            render: (event) =>
+                                Number(event.price ?? 0) > 0
+                                    ? `${event.price}`
+                                    : 'Free',
+                        },
+                        {
+                            header: 'Actions',
+                            headerClassName: 'text-right',
+                            cellClassName: 'text-right',
+                            render: (event) => (
+                                <div className="flex items-center justify-end gap-2">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="rounded-lg"
+                                        asChild
+                                    >
+                                        <Link
+                                            href={`/admin/events/${event.id}/edit`}
+                                        >
+                                            <Edit className="mr-1 h-3.5 w-3.5" />
+                                            Edit
+                                        </Link>
+                                    </Button>
+                                    <Button
+                                        variant="destructive"
+                                        size="sm"
+                                        className="rounded-lg"
+                                        onClick={() => setDeleteId(event.id)}
+                                    >
+                                        <Trash2 className="mr-1 h-3.5 w-3.5" />
+                                        Delete
+                                    </Button>
+                                </div>
+                            ),
+                        },
+                    ]}
+                    emptyState={
+                        <>
+                            <CalendarDays className="mx-auto mb-3 size-10 text-muted-foreground" />
+                            <p className="font-medium text-foreground">
+                                No events yet
+                            </p>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Add your first event to get started.
+                            </p>
+                        </>
+                    }
+                />
             </div>
 
             <ConfirmDeleteDialog
                 open={deleteId !== null}
-                onOpenChange={(val) => { if (!val) setDeleteId(null); }}
+                onOpenChange={(val) => {
+                    if (!val) setDeleteId(null);
+                }}
                 onConfirm={handleDelete}
                 processing={deleting}
                 title="Delete Event"

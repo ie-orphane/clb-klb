@@ -11,20 +11,21 @@ class Blog extends Model
     protected $fillable = [
         'image',
         'title',
-        'slug',
         'description',
         'body',
-        'published_at',
+        'is_published',
+        'author',
+        'category',
     ];
 
     protected function casts(): array
     {
         return [
             'title' => 'array',
-            'slug' => 'array',
             'description' => 'array',
             'body' => 'array',
-            'published_at' => 'datetime',
+            'category' => 'array',
+            'is_published' => 'boolean',
         ];
     }
 
