@@ -1,9 +1,9 @@
+import { usePage } from '@inertiajs/react';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import SetDocumentDirection from '@/components/SetDocumentDirection';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import type { AppLayoutProps } from '@/types';
-import { usePage } from '@inertiajs/react';
 
 export default function AppLayout({
     children,
