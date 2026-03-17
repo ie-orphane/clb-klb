@@ -43,17 +43,17 @@ class EventController extends Controller
             'description.nl' => 'nullable|string',
             'date' => 'required|date',
             'time' => 'required',
-            'categorie' => 'required|array',
-            'categorie.fr' => 'required|string|max:255',
-            'categorie.ar' => 'nullable|string|max:255',
-            'categorie.nl' => 'nullable|string|max:255',
+            'category' => 'required|array',
+            'category.fr' => 'required|string|max:255',
+            'category.ar' => 'nullable|string|max:255',
+            'category.nl' => 'nullable|string|max:255',
             'price' => 'required|integer|min:0',
             'image' => 'required|image|mimes:jpg,jpeg,png,webp,gif|max:2048',
             'location' => 'required|string|max:255',
         ]);
 
         $imagePath = $request->file('image')->store('images/events', 'public');
-        $validated['image'] = $imagePath;
+        $validated['image'] = '/storage/' . $imagePath;
 
         Event::create($validated);
 
@@ -96,10 +96,10 @@ class EventController extends Controller
             'description.nl' => 'nullable|string',
             'date' => 'required|date',
             'time' => 'required',
-            'categorie' => 'required|array',
-            'categorie.fr' => 'required|string|max:255',
-            'categorie.ar' => 'nullable|string|max:255',
-            'categorie.nl' => 'nullable|string|max:255',
+            'category' => 'required|array',
+            'category.fr' => 'required|string|max:255',
+            'category.ar' => 'nullable|string|max:255',
+            'category.nl' => 'nullable|string|max:255',
             'price' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:2048',
             'location' => 'required|string|max:255',

@@ -23,7 +23,7 @@ export default function AdminEventEdit({ event }) {
         { title: 'Edit', href: '#' },
     ];
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, put, processing, errors } = useForm({
         title: transValue(event.title),
         description: transValue(event.description),
         date: event.date || '',
@@ -40,10 +40,8 @@ export default function AdminEventEdit({ event }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(`/admin/events/${event.id}`, {
+        put(`/admin/events/${event.id}`, {
             forceFormData: true,
-            _method: 'put',
-            preserveScroll: true,
         });
     };
 
@@ -172,7 +170,6 @@ export default function AdminEventEdit({ event }) {
                         </div>
                     </div>
 
-                    {/* Event Details */}
                     <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
                         <div className="border-b bg-alpha/5 px-6 py-3">
                             <p className="text-xs font-semibold tracking-wider text-alpha uppercase">
@@ -263,7 +260,10 @@ export default function AdminEventEdit({ event }) {
                                     accept="image/*"
                                     className="rounded-lg"
                                     onChange={(e) =>
-                                        setData('image', e.target.files[0] ?? null)
+                                        setData(
+                                            'image',
+                                            e.target.files[0] ?? null,
+                                        )
                                     }
                                 />
                                 {errors.image && (

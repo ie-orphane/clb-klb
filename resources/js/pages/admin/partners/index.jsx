@@ -3,7 +3,7 @@ import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Handshake, Plus, Trash2 } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
-import { Table } from '@/components/Table';
+import { Table, TableImage } from '@/components/Table';
 import ConfirmDeleteDialog from '@/components/confirm-delete-dialog';
 import AlertSuccess from '@/components/alert-success';
 
@@ -59,16 +59,13 @@ export default function AdminPartnersIndex({ partners }) {
                     columns={[
                         {
                             header: 'Logo',
-                            headerClassName: 'px-4 py-4 sm:px-6',
-                            cellClassName: 'px-4 py-3 sm:px-6',
-                            render: (p) => (
-                                <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl border border-border bg-muted/50 p-1">
-                                    <img
-                                        src={p.logo_url ?? p.logo_path}
-                                        alt=""
-                                        className="max-h-full max-w-full object-contain"
-                                    />
-                                </div>
+                            render: (partner) => (
+                                <TableImage
+                                    src={partner.logo_url ?? partner.logo_path}
+                                    alt="Partner Logo"
+                                    width="6rem"
+                                    aspectRatio="1/1"
+                                />
                             ),
                         },
                         {

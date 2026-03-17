@@ -3,7 +3,7 @@ import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Plus, Trash2, UserCircle } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
-import { Table } from '@/components/Table';
+import { Table, TableImage } from '@/components/Table';
 import ConfirmDeleteDialog from '@/components/confirm-delete-dialog';
 import AlertSuccess from '@/components/alert-success';
 
@@ -61,16 +61,13 @@ export default function AdminTeamIndex({ teamMembers }) {
                     columns={[
                         {
                             header: 'Photo',
-                            headerClassName: 'px-4 py-4 sm:px-6',
-                            cellClassName: 'px-4 py-3 sm:px-6',
-                            render: (m) => (
-                                <div className="h-12 w-12 overflow-hidden rounded-xl border border-border bg-muted">
-                                    <img
-                                        src={m.image_url ?? m.image_path}
-                                        alt=""
-                                        className="h-full w-full object-cover"
-                                    />
-                                </div>
+                            render: (member) => (
+                                <TableImage
+                                    src={member.image_url ?? member.image_path}
+                                    alt="Member Photo"
+                                    width="6rem"
+                                    aspectRatio="3/4"
+                                />
                             ),
                         },
                         {

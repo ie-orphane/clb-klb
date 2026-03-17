@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
+import React, { useState, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { ImageOff } from 'lucide-react';
 
 export type TableColumn<TData> = {
     header: ReactNode;
@@ -17,6 +18,53 @@ type TableProps<TData> = {
     bodyClassName?: string;
     rowClassName?: string | ((row: TData, index: number) => string);
 };
+
+export function TableImage({
+    src,
+    alt,
+    width,
+    aspectRatio,
+}: {
+    src: React.ImgHTMLAttributes<HTMLImageElement>['src'];
+    alt: React.ImgHTMLAttributes<HTMLImageElement>['alt'];
+    width: React.CSSProperties['width'];
+    aspectRatio: React.CSSProperties['aspectRatio'];
+}) {
+    const [hasError, setHasError] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    if (hasError || !src) {
+        return (
+            <div
+                style={{
+                    width,
+                    aspectRatio,
+                }}
+                className="flex items-center justify-center rounded-lg border border-dashed border-border bg-muted text-xs text-muted-foreground"
+            >
+                <ImageOff className="size-4" />
+            </div>
+        );
+    }
+
+    return (
+        <div
+            style={{
+                width,
+                aspectRatio,
+            }}
+            className="overflow-hidden rounded-lg border border-border bg-muted"
+        >
+            <img
+                src={src}
+                alt={alt}
+                className={`h-full w-full object-cover ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+                onLoad={() => setIsLoaded(true)}
+                onError={() => setHasError(true)}
+            />
+        </div>
+    );
+}
 
 export function Table<TData>({
     data,

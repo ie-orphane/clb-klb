@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { CalendarDays, Edit, MapPin, Plus, Trash2 } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
-import { Table } from '@/components';
+import { Table, TableImage } from '@/components';
 import { Button } from '@/components/ui/button';
 import ConfirmDeleteDialog from '@/components/confirm-delete-dialog';
 import AlertSuccess from '@/components/alert-success';
 
 const breadcrumbs = [
     { title: 'Dashboard', href: '/admin/dashboard' },
-    { title: 'Events', href: '/admin/events' },
+    { title: 'Events', href: '#' },
 ];
 
 export default function AdminEventIndex({ events }) {
@@ -31,7 +31,6 @@ export default function AdminEventIndex({ events }) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Manage Events" />
             <div className="flex h-full flex-1 flex-col gap-6 p-4 lg:p-6">
-                {/* Page Header */}
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-bold text-foreground italic lg:text-3xl">
@@ -53,10 +52,20 @@ export default function AdminEventIndex({ events }) {
                     </Button>
                 </div>
 
-                {/* Events Table */}
                 <Table
                     data={events}
                     columns={[
+                        {
+                            header: 'Cover',
+                            render: (event) => (
+                                <TableImage
+                                    src={event.image}
+                                    alt="Event Image"
+                                    width="7rem"
+                                    aspectRatio="5/4"
+                                />
+                            ),
+                        },
                         {
                             header: 'Title',
                             cellClassName: 'font-semibold text-foreground',
@@ -66,7 +75,7 @@ export default function AdminEventIndex({ events }) {
                             header: 'Category',
                             render: (event) => (
                                 <span className="inline-block rounded-full bg-alpha/10 px-2.5 py-0.5 text-xs font-medium text-alpha">
-                                    {event?.categorie?.fr ?? ''}
+                                    {event?.category?.fr ?? ''}
                                 </span>
                             ),
                         },

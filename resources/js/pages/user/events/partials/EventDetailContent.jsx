@@ -1,9 +1,6 @@
 import TransText from '@/components/TransText';
-import { useTrans } from '@/hooks/use-trans';
 
 export function EventDetailContent({ event }) {
-    const { t } = useTrans();
-    console.log(event);
     return (
         <section className="bg-background py-12 lg:py-20">
             <div className="container grid gap-10 lg:grid-cols-2">
@@ -101,11 +98,7 @@ export function EventDetailContent({ event }) {
                                             nl="Gratis"
                                         />
                                     ) : (
-                                        `${event.price} ${t(
-                                            'MAD',
-                                            'درهم',
-                                            'MAD',
-                                        )}`
+                                        event.price
                                     )}
                                 </dd>
                             </div>

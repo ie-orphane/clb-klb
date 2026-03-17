@@ -3,13 +3,13 @@ import { Head, Link, router, usePage } from '@inertiajs/react';
 import { FileText, Plus, Trash2, ImageOff, Edit } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
-import { Table } from '@/components/Table';
+import { Table, TableImage } from '@/components/Table';
 import ConfirmDeleteDialog from '@/components/confirm-delete-dialog';
 import AlertSuccess from '@/components/alert-success';
 
 const breadcrumbs = [
     { title: 'Dashboard', href: '/admin/dashboard' },
-    { title: 'Blogs', href: '/admin/blogs' },
+    { title: 'Blogs', href: '#' },
 ];
 
 export default function AdminBlogIndex({ blogs = [] }) {
@@ -31,7 +31,6 @@ export default function AdminBlogIndex({ blogs = [] }) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Blogs" />
             <div className="flex h-full flex-1 flex-col gap-6 p-4 lg:p-6">
-                {/* Page Header */}
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-bold text-foreground italic lg:text-3xl">
@@ -53,29 +52,20 @@ export default function AdminBlogIndex({ blogs = [] }) {
                     </Button>
                 </div>
 
-                {/* Blogs Table */}
                 <Table
                     data={blogs}
                     getRowKey={(b) => b.id}
                     columns={[
                         {
                             header: 'Thumbnail',
-                            cellClassName: 'px-4 py-3',
-                            headerClassName: 'px-4 py-4',
-                            render: (b) =>
-                                b.image ? (
-                                    <div className="aspect-16/7 w-40 overflow-hidden rounded-lg border border-border bg-muted">
-                                        <img
-                                            src={b.image}
-                                            alt=""
-                                            className="h-full w-full object-cover"
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="flex aspect-16/7 w-40 items-center justify-center rounded-lg border border-dashed border-border bg-muted text-xs text-muted-foreground">
-                                        <ImageOff className="size-4" />
-                                    </div>
-                                ),
+                            render: (blog) => (
+                                <TableImage
+                                    src={blog.image}
+                                    alt="Blog Image"
+                                    width="10rem"
+                                    aspectRatio="16/7"
+                                />
+                            ),
                         },
                         {
                             header: 'Title',
@@ -104,9 +94,7 @@ export default function AdminBlogIndex({ blogs = [] }) {
                                             : 'inline-block rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground'
                                     }
                                 >
-                                    {b.is_published
-                                        ? 'Published'
-                                        : 'Draft'}
+                                    {b.is_published ? 'Published' : 'Draft'}
                                 </span>
                             ),
                         },

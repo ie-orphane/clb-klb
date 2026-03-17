@@ -12,7 +12,7 @@ const breadcrumbs = [
 ];
 
 export default function AdminTeamEdit({ teamMember }) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, put, processing, errors } = useForm({
         name: teamMember.name,
         category: teamMember.category || 'bureau',
         image: null,
@@ -23,9 +23,8 @@ export default function AdminTeamEdit({ teamMember }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(`/admin/team/${teamMember.id}`, {
+        put(`/admin/team/${teamMember.id}`, {
             forceFormData: true,
-            _method: 'put',
         });
     };
 
