@@ -1,5 +1,12 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, CalendarDays, Handshake, LayoutGrid, UserCircle } from 'lucide-react';
+import {
+    BookOpen,
+    CalendarDays,
+    Handshake,
+    LayoutGrid,
+    MessageCircleCode,
+    UserCircle,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -40,6 +47,11 @@ const mainNavItems: NavItem[] = [
         title: 'Blogs',
         href: '/admin/blogs',
         icon: BookOpen,
+    },
+    {
+        title: 'News Letters',
+        href: '/admin/newsletter',
+        icon: MessageCircleCode,
     },
 ];
 

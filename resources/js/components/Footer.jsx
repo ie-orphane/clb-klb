@@ -1,6 +1,7 @@
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { CONTACT_INFO, SOCIAL_MEDIA_LINKS } from '@/lib/consts';
 import { TransText } from '@/components';
+import { useState } from 'react';
 
 const socialLinks = [
     {
@@ -75,73 +76,137 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+    const [subscriber, setSubscriber] = useState();
+    const subscribe = () => {
+        router.post(
+            '/subscrib',
+            {
+                data: subscriber,
+            },
+            {
+                onSuccess: () => {
+                    // console.log('Success');
+                },
+                onError: (error) => {
+                    // console.log(error);
+                },
+            },
+        );
+    };
     return (
-        <footer className="bg-cl-black text-cl-white">
-            <div className="container py-12">
-                <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-                    <div className="max-w-md">
-                        <Link
-                            href="/"
-                            className="mb-4 inline-flex items-center gap-2"
-                        >
-                            <img
-                                src="/assets/logo.webp"
-                                alt="CLB KLB"
-                                className="h-8 w-8 shrink-0 object-contain"
+        <>
+            <section class="relative flex h-[400px] w-full items-center bg-[url('https://media.istockphoto.com/id/494195896/photo/brugge-architecture.jpg?s=1024x1024&w=is&k=20&c=_219KOIkBJZ5AM8u0P_BfyffvNNJ7p1NVuACDtmL0D0=')] bg-cover bg-center px-10 before:absolute before:inset-0 before:z-0 before:bg-black/90 before:content-['']">
+                <div class="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-10 px-10 md:flex-row">
+                    <div class="max-w-xl space-y-4">
+                        <h2 class="text-5xl leading-tight font-extrabold tracking-tight text-cl-white capitalize md:text-5xl">
+                            <TransText
+                                ar="انضم إلى نشرتنا الإخبارية وابقَ على اطلاع.."
+                                fr="Rejoignez notre newsletter et restez informé."
+                                nl="Schrijf je in voor onze nieuwsbrief en blijf op de hoogte."
+                                as="p"
                             />
-                            <span className="font-semibold text-cl-white">
-                                CLB KLB
-                            </span>
-                        </Link>
-                        <TransText
-                            ar="دائرة خريجي بلجيكا، جمعية غير ربحية تخضع لقانون 1 يوليو 1901."
-                            fr="Le cercle des lauréats de Belgique, association à but non lucratif régie par la loi du 1er juillet 1901."
-                            nl="De kring van Belgische laureaten, een vereniging zonder winstoogmerk geregeld door de wet van 1 juli 1901."
-                            as="p"
-                            className="text-sm text-cl-white/90"
+                        </h2>
+
+                        <p class="text-lg text-yellow-300">
+                            <TransText
+                                ar="احصل على أحدث الأخبار والتحديثات مباشرة في بريدك الإلكتروني."
+                                fr="Recevez les dernières actualités et mises à jour directement dans votre boîte de réception."
+                                nl="Ontvang het laatste nieuws en updates rechtstreeks in je inbox."
+                                as="p"
+                            />
+                        </p>
+                    </div>
+
+                    <div class="flex w-full max-w-md flex-col gap-4 sm:flex-row">
+                        <input
+                            onChange={(e) => setSubscriber(e.target.value)}
+                            type="email"
+                            placeholder="Enter your email..."
+                            class="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-800 shadow-sm focus:border-[#a3b899] focus:ring-2 focus:ring-[#a3b899] focus:outline-none"
                         />
+
+                        <button
+                            onClick={subscribe}
+                            class="rounded-md bg-[#ed2939] px-8 py-3 text-sm font-semibold tracking-wider text-white uppercase transition hover:bg-[#8fa684]"
+                        >
+                            <TransText
+                                ar="اشترك."
+                                fr="S’abonner."
+                                nl="Abonneren."
+                                as="p"
+                            />
+                        </button>
                     </div>
-                    <div className="flex gap-4">
-                        {socialLinks.map(({ name, href, Icon }) => (
-                            <a
-                                key={name}
-                                href={href}
-                                className="transition hover:opacity-80"
-                                aria-label={name}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                </div>
+            </section>
+
+            <footer className="bg-cl-black text-cl-white">
+                <div className="container py-12">
+                    <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+                        <div className="max-w-md">
+                            <Link
+                                href="/"
+                                className="mb-4 inline-flex items-center gap-2"
                             >
-                                <Icon className="size-6 fill-[#4B5563]" />
+                                <img
+                                    src="/assets/logo.webp"
+                                    alt="CLB KLB"
+                                    className="h-8 w-8 shrink-0 object-contain"
+                                />
+                                <span className="font-semibold text-cl-white">
+                                    CLB KLB
+                                </span>
+                            </Link>
+                            <TransText
+                                ar="دائرة خريجي بلجيكا، جمعية غير ربحية تخضع لقانون 1 يوليو 1901."
+                                fr="Le cercle des lauréats de Belgique, association à but non lucratif régie par la loi du 1er juillet 1901."
+                                nl="De kring van Belgische laureaten, een vereniging zonder winstoogmerk geregeld door de wet van 1 juli 1901."
+                                as="p"
+                                className="text-sm text-cl-white/90"
+                            />
+                        </div>
+                        <div className="flex gap-4">
+                            {socialLinks.map(({ name, href, Icon }) => (
+                                <a
+                                    key={name}
+                                    href={href}
+                                    className="transition hover:opacity-80"
+                                    aria-label={name}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Icon className="size-6 fill-[#4B5563]" />
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div className="border-t border-white/10">
+                    <div className="container flex flex-col items-center justify-between gap-2 px-4 py-4 text-sm text-cl-white/80 sm:flex-row">
+                        <TransText
+                            ar="© 2026 CLB KLP. جميع الحقوق محفوظة."
+                            fr="© 2026 CLB KLP. Tous droits réservés."
+                            nl="© 2026 CLB KLP. Alle rechten voorbehouden."
+                            as="p"
+                        />
+                        <div className="flex items-center gap-4">
+                            <a
+                                href={`tel:${CONTACT_INFO.phone}`}
+                                dir="ltr"
+                                className="hover:underline"
+                            >
+                                {CONTACT_INFO.phone}
                             </a>
-                        ))}
+                            <a
+                                href={`mailto:${CONTACT_INFO.email}`}
+                                className="hover:underline"
+                            >
+                                {CONTACT_INFO.email}
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="border-t border-white/10">
-                <div className="container flex flex-col items-center justify-between gap-2 px-4 py-4 text-sm text-cl-white/80 sm:flex-row">
-                    <TransText
-                        ar="© 2026 CLB KLP. جميع الحقوق محفوظة."
-                        fr="© 2026 CLB KLP. Tous droits réservés."
-                        nl="© 2026 CLB KLP. Alle rechten voorbehouden."
-                        as="p"
-                    />
-                    <div className="flex items-center gap-4">
-                        <a
-                            href={`tel:${CONTACT_INFO.phone}`}
-                            dir="ltr"
-                            className="hover:underline"
-                        >
-                            {CONTACT_INFO.phone}
-                        </a>
-                        <a
-                            href={`mailto:${CONTACT_INFO.email}`}
-                            className="hover:underline"
-                        >
-                            {CONTACT_INFO.email}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </footer>
+            </footer>
+        </>
     );
 }

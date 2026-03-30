@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\Subscribercontroller;
 use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\BlogController;
@@ -13,12 +15,13 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::post('/locale', [LocaleController::class, 'store']);
+Route::post('/subscrib', [NewsLetterController::class, 'store']);
 
 Route::get('/', HomeController::class)->name('home');
 
 Route::get('/a-propos', function () {
     $teamMembers = TeamMember::orderBy('sort_order')->orderBy('id')->get()
-        ->map(fn ($m) => [
+        ->map(fn($m) => [
             'id' => $m->id,
             'name' => $m->name,
             'category' => $m->category,
@@ -29,7 +32,7 @@ Route::get('/a-propos', function () {
             'social_link' => $m->social_link,
         ]);
     $partners = Partner::orderBy('sort_order')->orderBy('id')->get()
-        ->map(fn ($p) => ['id' => $p->id, 'name' => $p->name, 'logoUrl' => $p->logo_url, 'link' => $p->link]);
+        ->map(fn($p) => ['id' => $p->id, 'name' => $p->name, 'logoUrl' => $p->logo_url, 'link' => $p->link]);
     return Inertia::render('user/about/index', [
         'teamMembers' => $teamMembers,
         'partners' => $partners,
@@ -72,6 +75,11 @@ Route::group(['middleware' => ['auth', 'role:admin', 'verified']], function () {
         Route::get('/{partner}/edit', [PartnerController::class, 'edit'])->name('admin.partners.edit');
         Route::put('/{partner}', [PartnerController::class, 'update'])->name('admin.partners.update');
         Route::delete('/{partner}', [PartnerController::class, 'destroy'])->name('admin.partners.destroy');
+    });
+
+    Route::prefix('admin/newsletter')->group(function () {
+        Route::get('/', [NewsLetterController::class, 'index']);
+        Route::post('/send', [NewsLetterController::class,'sendNewsletter']);
     });
 });
 
