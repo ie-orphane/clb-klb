@@ -4,7 +4,6 @@ import {
     CalendarDays,
     Handshake,
     LayoutGrid,
-    MessageCircleCode,
     UserCircle,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
@@ -47,11 +46,6 @@ const mainNavItems: NavItem[] = [
         title: 'Blogs',
         href: '/admin/blogs',
         icon: BookOpen,
-    },
-    {
-        title: 'News Letters',
-        href: '/admin/newsletter',
-        icon: MessageCircleCode,
     },
 ];
 

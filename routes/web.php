@@ -10,6 +10,8 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\BlogController;
 use App\Http\Controllers\User\LocaleController;
 use App\Models\Partner;
+use App\Models\Blog;
+use App\Models\Event;
 use App\Models\TeamMember;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,7 +44,13 @@ Route::get('/a-propos', function () {
 // Admin routes (use app-sidebar layout via AppLayout)
 Route::group(['middleware' => ['auth', 'role:admin', 'verified']], function () {
     Route::get('/admin/dashboard', function () {
-        return Inertia::render('dashboard');
+        return Inertia::render('dashboard', [
+            'stats' => [
+                'publishedBlogs' => Blog::query()->where('is_published', true)->count(),
+                'eventsCount' => Event::query()->count(),
+                'partnersCount' => Partner::query()->count(),
+            ],
+        ]);
     })->name('dashboard');
 
     Route::prefix('admin/events')->group(function () {
@@ -77,10 +85,7 @@ Route::group(['middleware' => ['auth', 'role:admin', 'verified']], function () {
         Route::delete('/{partner}', [PartnerController::class, 'destroy'])->name('admin.partners.destroy');
     });
 
-    Route::prefix('admin/newsletter')->group(function () {
-        Route::get('/', [NewsLetterController::class, 'index']);
-        Route::post('/send', [NewsLetterController::class,'sendNewsletter']);
-    });
+    Route::post('/admin/newsletter/send', [NewsLetterController::class, 'sendNewsletter']);
 });
 
 Route::get('/blogs', [BlogController::class, 'index'])->name('user.blog');

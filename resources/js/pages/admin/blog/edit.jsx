@@ -32,6 +32,7 @@ export default function AdminBlogEdit({ blog }) {
         category: blog.category ?? emptyLocale(),
         body: blog.body ?? emptyLocale(),
         author: blog.author ?? '',
+        published_at: blog.published_at ?? '',
         is_published: !!blog.is_published,
     });
 
@@ -359,6 +360,28 @@ export default function AdminBlogEdit({ blog }) {
                                 {errors.author && (
                                     <p className="text-xs text-destructive">
                                         {errors.author}
+                                    </p>
+                                )}
+                            </div>
+                            <div className="space-y-1.5">
+                                <Label htmlFor="published_at">
+                                    Publication date
+                                </Label>
+                                <Input
+                                    id="published_at"
+                                    type="date"
+                                    className="rounded-lg"
+                                    value={data.published_at}
+                                    onChange={(e) =>
+                                        setData(
+                                            'published_at',
+                                            e.target.value,
+                                        )
+                                    }
+                                />
+                                {errors.published_at && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.published_at}
                                     </p>
                                 )}
                             </div>

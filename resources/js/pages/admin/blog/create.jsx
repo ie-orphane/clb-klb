@@ -31,6 +31,7 @@ export default function AdminBlogCreate() {
         category: emptyLocale(),
         body: emptyLocale(),
         author: '',
+        published_at: '',
         is_published: false,
     });
 
@@ -330,6 +331,28 @@ export default function AdminBlogCreate() {
                                 {errors.author && (
                                     <p className="text-xs text-destructive">
                                         {errors.author}
+                                    </p>
+                                )}
+                            </div>
+                            <div className="space-y-1.5">
+                                <Label htmlFor="published_at">
+                                    Publication date
+                                </Label>
+                                <Input
+                                    id="published_at"
+                                    type="date"
+                                    className="rounded-lg"
+                                    value={data.published_at}
+                                    onChange={(e) =>
+                                        setData(
+                                            'published_at',
+                                            e.target.value,
+                                        )
+                                    }
+                                />
+                                {errors.published_at && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.published_at}
                                     </p>
                                 )}
                             </div>

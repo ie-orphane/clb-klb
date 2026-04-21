@@ -33,7 +33,7 @@ class BlogController extends Controller
         }
 
         $blogs = Blog::query()
-            ->orderByDesc('created_at')
+            ->orderByRaw('COALESCE(published_at, created_at) DESC')
             ->get()
             ->map(function (Blog $blog) use ($locale) {
                 return [
@@ -45,6 +45,7 @@ class BlogController extends Controller
                     'author' => $blog->author,
                     'image' => $blog->image ? asset('storage/' . $blog->image) : null,
                     'is_published' => (bool) $blog->is_published,
+                    'published_at' => $blog->published_at ? date('Y-m-d', strtotime((string) $blog->published_at)) : null,
                     'status' => $blog->is_published ? 'published' : 'draft',
                     'created_at' => $blog->created_at->toIso8601String(),
                     'title_active' => $blog->getTranslation('title', $locale),
@@ -72,6 +73,7 @@ class BlogController extends Controller
                 'category' => $blog->category ?? ['ar' => '', 'fr' => '', 'nl' => ''],
                 'body' => $blog->body ?? ['ar' => '', 'fr' => '', 'nl' => ''],
                 'author' => $blog->author,
+                'published_at' => $blog->published_at ? date('Y-m-d', strtotime((string) $blog->published_at)) : null,
                 'is_published' => (bool) $blog->is_published,
                 'image' => $blog->image ? asset('storage/' . $blog->image) : null,
             ],
@@ -113,6 +115,7 @@ class BlogController extends Controller
                 'nl' => $validated['category']['nl'] ?? '',
             ],
             'author' => $validated['author'] ?? null,
+            'published_at' => $validated['published_at'] ?? null,
             'is_published' => (bool) ($validated['is_published'] ?? false),
             'description' => ['ar' => '', 'fr' => '', 'nl' => ''],
         ]);
@@ -158,6 +161,7 @@ class BlogController extends Controller
                 'nl' => $validated['category']['nl'] ?? '',
             ],
             'author' => $validated['author'] ?? null,
+            'published_at' => $validated['published_at'] ?? null,
             'is_published' => (bool) ($validated['is_published'] ?? false),
         ]);
 

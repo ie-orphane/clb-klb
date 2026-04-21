@@ -77,12 +77,14 @@ class NewsLetterController extends Controller
     public function sendNewsletter(Request $request)
     {
         $request->validate([
-            'subject' => 'required|string'
+            'subject' => 'required|string',
+            'content' => 'required|string',
         ]);
         $subscribers = NewsLetter::pluck('email');
+        $content = (string) $request->input('content');
 
         foreach ($subscribers as $email) {
-            Mail::to($email)->send(new NewsletterMail($request->content));
+            Mail::to($email)->send(new NewsletterMail($content));
         }
         return back()->with('success', 'Newsletter sent!');
     }

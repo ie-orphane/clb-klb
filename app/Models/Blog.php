@@ -14,6 +14,7 @@ class Blog extends Model
         'description',
         'body',
         'is_published',
+        'published_at',
         'author',
         'category',
     ];
@@ -26,6 +27,7 @@ class Blog extends Model
             'body' => 'array',
             'category' => 'array',
             'is_published' => 'boolean',
+            'published_at' => 'date',
         ];
     }
 
