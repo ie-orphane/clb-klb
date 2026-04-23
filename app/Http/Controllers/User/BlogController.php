@@ -29,7 +29,7 @@ class BlogController extends Controller
             'category' => $blog->getTranslation('category', $locale),
             'author' => (string) ($blog->author ?? ''),
             'image_url' => $imageUrl,
-            'published_at' => $blog->created_at?->translatedFormat('j F Y'),
+            'published_at' => ($blog->published_at ?? $blog->created_at)?->translatedFormat('j F Y'),
             'url' => '/blogs/' . $blog->id,
         ];
     }
@@ -45,7 +45,7 @@ class BlogController extends Controller
 
         $categories = Blog::query()
             ->where('is_published', true)
-            ->orderByDesc('created_at')
+            ->orderByRaw('COALESCE(published_at, created_at) DESC')
             ->get()
             ->map(fn (Blog $blog) => $blog->getTranslation('category', $locale))
             ->filter(fn (string $category) => $category !== '')
@@ -62,7 +62,7 @@ class BlogController extends Controller
             ->when($selectedCategory !== 'all', function ($query) use ($selectedCategory, $locale) {
                 $query->where("category->{$locale}", $selectedCategory);
             })
-            ->orderByDesc('created_at')
+            ->orderByRaw('COALESCE(published_at, created_at) DESC')
             ->paginate($perPage)
             ->withQueryString();
 

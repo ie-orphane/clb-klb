@@ -74,24 +74,23 @@ export default function AdminEventIndex({ events }) {
                         {
                             header: 'Category',
                             render: (event) => (
-                                <span className="inline-block rounded-full bg-alpha/10 px-2.5 py-0.5 text-xs font-medium text-alpha">
+                                <span className="inline-block truncate rounded-full bg-alpha/10 px-2.5 py-0.5 text-xs font-medium text-alpha">
                                     {event?.category?.fr ?? ''}
                                 </span>
                             ),
                         },
                         {
                             header: 'Date',
-                            render: (event) => event.date,
+                            render: (event) => <span className='text-nowrap'>{event.date}</span>,
                         },
                         {
                             header: 'Time',
-                            render: (event) => event.time,
+                            render: (event) => <span className='text-nowrap'>{event.time}</span>,
                         },
                         {
                             header: 'Location',
                             render: (event) => (
-                                <span className="inline-flex items-center gap-1">
-                                    <MapPin className="h-3.5 w-3.5" />
+                                <span className="inline-flex truncate items-center gap-1">
                                     {event.location}
                                 </span>
                             ),

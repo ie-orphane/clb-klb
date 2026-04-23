@@ -28,6 +28,7 @@ class StoreBlogRequest extends FormRequest
             'body.fr' => ['required', 'string'],
             'body.nl' => ['required', 'string'],
             'author' => ['nullable', 'string', 'max:255'],
+            'published_at' => ['nullable', 'date'],
             'is_published' => ['nullable', 'boolean'],
         ];
     }

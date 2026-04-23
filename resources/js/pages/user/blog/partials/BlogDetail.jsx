@@ -52,7 +52,7 @@ export default function BlogDetail({ blog }) {
             )}
             {blog.body && (
                 <div
-                    className="prose prose-foreground mt-6 max-w-none"
+                    className="tiptap-content mt-6 max-w-none text-left leading-relaxed text-foreground"
                     dangerouslySetInnerHTML={{ __html: blog.body }}
                 />
             )}

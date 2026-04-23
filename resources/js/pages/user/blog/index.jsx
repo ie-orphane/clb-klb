@@ -20,7 +20,7 @@ function BlogIndex({
         <>
             <Head title="Blog - Cercle des Lauréats de Belgique" />
             <PageHero
-                title={{ fr: 'Actualité', ar: 'الأخبار', nl: 'Nieuws' }}
+                title={{ fr: 'Actualités', ar: 'الأخبار', nl: 'Nieuws' }}
                 subtitle={{
                     fr: 'Ici, nous explorons les réussites exceptionnelles qui font la fierté de notre nation. Que vous soyez membre du CLB, aspirant lauréat ou simplement curieux, ce blog est votre passeport pour découvrir les histoires inspirantes et les réalisations extraordinaires qui façonnent l\'excellence belge au Maroc.',
                     ar: 'هنا، نستكشف النجاحات الاستثنائية التي تجعل من وطننا مصدر فخر. سواء كنت عضوًا في CLB، أو طامحًا لأن تكون من الحاصلين على الجوائز، أو مجرد فضولي، فإن هذه المدونة هي جواز سفرك لاكتشاف القصص الملهمة والإنجازات الرائعة التي تشكل التميز البلجيكي في المغرب.',

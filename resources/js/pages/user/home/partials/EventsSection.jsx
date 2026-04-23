@@ -8,7 +8,7 @@ export function EventsSection({ recentEvents = [] }) {
     const [featuredEvent, ...rest] = recentEvents;
     const smallEvents = rest.slice(0, 3);
     return (
-        <section className="border-b border-border bg-cl-blue-light/30 py-16 lg:py-24">
+        <section className="border-b border-border bg-background py-16 lg:py-24">
             <div className="container">
                 <SectionHeader
                     label={{

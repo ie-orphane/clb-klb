@@ -143,7 +143,7 @@ export default function Navbar() {
                                             fr={fr}
                                             ar={ar}
                                             nl={nl}
-                                            as="span"
+                                            className="uppercase"
                                         />
                                         <svg
                                             className="h-4 w-4 text-cl-black"
@@ -272,7 +272,7 @@ export default function Navbar() {
                             href={GOOGLE_FORM_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="rounded-full bg-alpha px-9 py-3 text-xs font-semibold text-cl-white transition hover:bg-alpha/95"
+                            className="rounded-full uppercase bg-alpha px-9 py-3 text-xs font-semibold text-cl-white transition hover:bg-alpha/95"
                         >
                             <TransText
                                 fr="Devenez membre"

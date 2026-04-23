@@ -27,9 +27,9 @@ export function WhoWeAreSection() {
                         className="mt-2 text-3xl font-bold text-foreground lg:text-4xl"
                     />
                     <TransText
-                        fr="Le Club des Diplômés du Maroc est l'approche au Maroc pour les femmes dirigeantes et entrepreneurs. Le CLB-KLP est la première association 100% féminine dans le paysage des associations au Maroc, dédiée au développement et au leadership féminin. Le CLB-KLP s'engage pour donner aux femmes dirigeantes une opportunité de partage, d'échange et une plateforme d'entraide."
-                        ar="نادي خريجي المغرب هو المرجع في المغرب للنساء القياديات ورائدات الأعمال. CLB-KLP هي أول جمعية نسائية 100٪ في مشهد الجمعيات بالمغرب، مكرسة للتنمية والقيادة النسائية. تلتزم CLB-KLP بمنح القياديات فرصة للمشاركة والتبادل ومنصة للتعاون المتبادل."
-                        nl="De Club van Marokkaanse Afgestudeerden is de referentie in Marokko voor vrouwelijke leiders en onderneemsters. CLB-KLP is de eerste 100% vrouwelijke vereniging in het Marokkaanse verenigingslandschap, gewijd aan ontwikkeling en vrouwelijk leiderschap. CLB-KLP zet zich in om vrouwelijke leiders kansen te bieden voor uitwisseling en een platform voor onderlinge steun."
+                        fr="Le Club des Diplômés du Maroc est l'approche au Maroc pour les femmes dirigeantes et entrepreneurs. Le CLB-KLB est la première association 100% féminine dans le paysage des associations au Maroc, dédiée au développement et au leadership féminin. Le CLB-KLB s'engage pour donner aux femmes dirigeantes une opportunité de partage, d'échange et une plateforme d'entraide."
+                        ar="نادي خريجي المغرب هو المرجع في المغرب للنساء القياديات ورائدات الأعمال. CLB-KLB هي أول جمعية نسائية 100٪ في مشهد الجمعيات بالمغرب، مكرسة للتنمية والقيادة النسائية. تلتزم CLB-KLB بمنح القياديات فرصة للمشاركة والتبادل ومنصة للتعاون المتبادل."
+                        nl="De Club van Marokkaanse Afgestudeerden is de referentie in Marokko voor vrouwelijke leiders en onderneemsters. CLB-KLB is de eerste 100% vrouwelijke vereniging in het Marokkaanse verenigingslandschap, gewijd aan ontwikkeling en vrouwelijk leiderschap. CLB-KLB zet zich in om vrouwelijke leiders kansen te bieden voor uitwisseling en een platform voor onderlinge steun."
                         as="p"
                         className="mt-6 leading-relaxed text-foreground/90"
                     />

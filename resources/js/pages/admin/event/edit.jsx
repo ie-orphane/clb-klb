@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { CONTENT_CATEGORY_PRESETS } from '@/lib/consts';
+import { findCategoryPresetByValue } from '@/lib/utils';
 
 const LANGS = [
     { code: 'fr', label: 'French' },
@@ -23,6 +26,8 @@ export default function AdminEventEdit({ event }) {
         { title: 'Edit', href: '#' },
     ];
 
+    const [openCategoryLocale, setOpenCategoryLocale] = useState(null);
+
     const { data, setData, put, processing, errors } = useForm({
         title: transValue(event.title),
         description: transValue(event.description),
@@ -36,6 +41,40 @@ export default function AdminEventEdit({ event }) {
 
     const setTransField = (field, lang, value) => {
         setData(field, { ...data[field], [lang]: value });
+    };
+
+    const handleCategoryInputChange = (locale, value) => {
+        const matchedPreset = findCategoryPresetByValue(locale, value);
+
+        if (matchedPreset) {
+            setData('category', {
+                fr: matchedPreset.fr,
+                ar: matchedPreset.ar,
+                nl: matchedPreset.nl,
+            });
+            return;
+        }
+
+        setTransField('category', locale, value);
+    };
+
+    const getCategorySuggestions = (locale) => {
+        const search = (data.category[locale] ?? '').trim().toLowerCase();
+
+        return CONTENT_CATEGORY_PRESETS.filter((preset) => {
+            const localizedLabel = (preset[locale] ?? '').toLowerCase();
+
+            return search === '' || localizedLabel.includes(search);
+        });
+    };
+
+    const applyCategoryPreset = (preset) => {
+        setData('category', {
+            fr: preset.fr,
+            ar: preset.ar,
+            nl: preset.nl,
+        });
+        setOpenCategoryLocale(null);
     };
 
     const handleSubmit = (e) => {
@@ -100,7 +139,7 @@ export default function AdminEventEdit({ event }) {
                     </div>
 
                     {/* Category */}
-                    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+                    <div className="rounded-2xl border border-border bg-card shadow-sm">
                         <div className="border-b bg-alpha/5 px-6 py-3">
                             <p className="text-xs font-semibold tracking-wider text-alpha uppercase">
                                 Category
@@ -112,18 +151,78 @@ export default function AdminEventEdit({ event }) {
                                     <Label htmlFor={`category_${lang.code}`}>
                                         {lang.label}
                                     </Label>
-                                    <Input
-                                        id={`category_${lang.code}`}
-                                        className="rounded-lg"
-                                        value={data.category[lang.code]}
-                                        onChange={(e) =>
-                                            setTransField(
-                                                'category',
-                                                lang.code,
-                                                e.target.value,
-                                            )
-                                        }
-                                    />
+                                    <div className="relative">
+                                        <Input
+                                            id={`category_${lang.code}`}
+                                            className="rounded-lg"
+                                            autoComplete="off"
+                                            value={data.category[lang.code]}
+                                            onFocus={() =>
+                                                setOpenCategoryLocale(lang.code)
+                                            }
+                                            onBlur={() => {
+                                                setTimeout(() => {
+                                                    setOpenCategoryLocale(
+                                                        (current) =>
+                                                            current ===
+                                                            lang.code
+                                                                ? null
+                                                                : current,
+                                                    );
+                                                }, 120);
+                                            }}
+                                            onChange={(e) => {
+                                                handleCategoryInputChange(
+                                                    lang.code,
+                                                    e.target.value,
+                                                );
+                                                setOpenCategoryLocale(lang.code);
+                                            }}
+                                        />
+                                        {openCategoryLocale === lang.code && (
+                                            <div className="absolute z-30 mt-1 w-full overflow-hidden rounded-lg border border-border bg-card shadow-xl">
+                                                <div className="max-h-56 overflow-auto py-1">
+                                                    {getCategorySuggestions(
+                                                        lang.code,
+                                                    ).length > 0 ? (
+                                                        getCategorySuggestions(
+                                                            lang.code,
+                                                        ).map(
+                                                            (categoryPreset) => (
+                                                                <button
+                                                                    key={`event-edit-${lang.code}-${categoryPreset.fr}`}
+                                                                    type="button"
+                                                                    className="flex w-full flex-col items-start px-3 py-2 text-left hover:bg-alpha/10"
+                                                                    onMouseDown={(
+                                                                        e,
+                                                                    ) => {
+                                                                        e.preventDefault();
+                                                                    }}
+                                                                    onClick={() =>
+                                                                        applyCategoryPreset(
+                                                                            categoryPreset,
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <span className="text-sm font-medium text-foreground">
+                                                                        {
+                                                                            categoryPreset[
+                                                                                lang.code
+                                                                            ]
+                                                                        }
+                                                                    </span>
+                                                                </button>
+                                                            ),
+                                                        )
+                                                    ) : (
+                                                        <p className="px-3 py-2 text-xs text-muted-foreground">
+                                                            No matching category
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                     {errors[`category.${lang.code}`] && (
                                         <p className="text-xs text-destructive">
                                             {errors[`category.${lang.code}`]}

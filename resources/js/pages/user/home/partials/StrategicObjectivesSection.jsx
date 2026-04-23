@@ -70,7 +70,7 @@ export function StrategicObjectivesSection() {
     return (
         <section
             id="objectifs"
-            className="scroll-mt-20 border-b border-border bg-background py-16 lg:py-24"
+            className="scroll-mt-20 border-b border-border  bg-cl-blue-light/30 py-16 lg:py-24"
         >
             <div className="container">
                 <SectionHeader

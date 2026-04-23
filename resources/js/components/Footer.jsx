@@ -93,11 +93,12 @@ export default function Footer() {
             },
         );
     };
+
     return (
         <>
-            <section class="relative flex h-[400px] w-full items-center bg-[url('https://media.istockphoto.com/id/494195896/photo/brugge-architecture.jpg?s=1024x1024&w=is&k=20&c=_219KOIkBJZ5AM8u0P_BfyffvNNJ7p1NVuACDtmL0D0=')] bg-cover bg-center px-10 before:absolute before:inset-0 before:z-0 before:bg-black/90 before:content-['']">
-                <div class="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-10 px-10 md:flex-row">
-                    <div class="max-w-xl space-y-4">
+            <section class="relative flex min-h-100 w-full items-center bg-[url('https://media.istockphoto.com/id/494195896/photo/brugge-architecture.jpg?s=1024x1024&w=is&k=20&c=_219KOIkBJZ5AM8u0P_BfyffvNNJ7p1NVuACDtmL0D0=')] bg-cover bg-center before:absolute before:inset-0 before:z-0 before:bg-black/90 before:content-['']">
+                <div class="relative container grid items-center justify-between gap-10 lg:grid-cols-2">
+                    <div class="space-y-4">
                         <h2 class="text-5xl leading-tight font-extrabold tracking-tight text-cl-white capitalize md:text-5xl">
                             <TransText
                                 ar="انضم إلى نشرتنا الإخبارية وابقَ على اطلاع.."
@@ -107,7 +108,7 @@ export default function Footer() {
                             />
                         </h2>
 
-                        <p class="text-lg text-yellow-300">
+                        <p class="text-lg text-yellow-500">
                             <TransText
                                 ar="احصل على أحدث الأخبار والتحديثات مباشرة في بريدك الإلكتروني."
                                 fr="Recevez les dernières actualités et mises à jour directement dans votre boîte de réception."
@@ -117,22 +118,22 @@ export default function Footer() {
                         </p>
                     </div>
 
-                    <div class="flex w-full max-w-md flex-col gap-4 sm:flex-row">
+                    <div class="flex w-full flex-col gap-4 sm:flex-row">
                         <input
                             onChange={(e) => setSubscriber(e.target.value)}
                             type="email"
                             placeholder="Enter your email..."
-                            class="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-800 shadow-sm focus:border-[#a3b899] focus:ring-2 focus:ring-[#a3b899] focus:outline-none"
+                            class="w-full rounded-full border border-gray-300 bg-white px-4 py-3 text-gray-800 shadow-sm focus:border-[#a3b899] focus:ring-2 focus:ring-[#a3b899] focus:outline-none"
                         />
 
                         <button
                             onClick={subscribe}
-                            class="rounded-md bg-[#ed2939] px-8 py-3 text-sm font-semibold tracking-wider text-white uppercase transition hover:bg-[#8fa684]"
+                            className="rounded-full bg-alpha px-12 py-4 text-sm font-semibold text-cl-white uppercase transition hover:bg-alpha/95 disabled:bg-alpha/70"
                         >
                             <TransText
-                                ar="اشترك."
-                                fr="S’abonner."
-                                nl="Abonneren."
+                                ar="اشترك"
+                                fr="S’abonner"
+                                nl="Abonneren"
                                 as="p"
                             />
                         </button>
@@ -182,11 +183,11 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="border-t border-white/10">
-                    <div className="container flex flex-col items-center justify-between gap-2 px-4 py-4 text-sm text-cl-white/80 sm:flex-row">
+                    <div className="container flex flex-col items-center justify-between gap-2 py-4 text-sm text-cl-white/80 sm:flex-row">
                         <TransText
-                            ar="© 2026 CLB KLP. جميع الحقوق محفوظة."
-                            fr="© 2026 CLB KLP. Tous droits réservés."
-                            nl="© 2026 CLB KLP. Alle rechten voorbehouden."
+                            ar="© 2026 CLB KLB. جميع الحقوق محفوظة."
+                            fr="© 2026 CLB KLB. Tous droits réservés."
+                            nl="© 2026 CLB KLB. Alle rechten voorbehouden."
                             as="p"
                         />
                         <div className="flex items-center gap-4">

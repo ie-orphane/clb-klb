@@ -16,7 +16,7 @@ export function LatestBlogSection({ latestBlogs = [] }) {
                 <SectionHeader
                     label={{
                         ar: 'الأخبار',
-                        fr: 'Actualité',
+                        fr: 'Actualités',
                         nl: 'Nieuws',
                     }}
                     title={{

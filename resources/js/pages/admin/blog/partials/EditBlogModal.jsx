@@ -122,7 +122,7 @@ export default function EditBlogModal({ blog, open, onOpenChange }) {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] !w-[80vw] !max-w-[80vw] overflow-y-auto">
+            <DialogContent className="max-h-[90vh] w-[80vw]! max-w-[80vw]! overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Edit Blog</DialogTitle>
                 </DialogHeader>
@@ -186,7 +186,7 @@ export default function EditBlogModal({ blog, open, onOpenChange }) {
                         ))}
                     </div>
 
-                    <div className="min-h-[280px] space-y-4">
+                    <div className="min-h-70 space-y-4">
                         {LOCALES.map((locale) => (
                             <div
                                 key={locale}

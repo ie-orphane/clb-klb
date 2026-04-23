@@ -4,8 +4,8 @@ import { CONTACT_INFO } from '@/lib/consts';
 
 export function ContactStripSection() {
     return (
-        <section className="border-b border-border bg-background py-12 lg:py-14">
-            <div className="container grid gap-8 rounded-2xl border border-border bg-card py-8 shadow-sm sm:grid-cols-3 lg:py-10">
+        <section className="container border-b border-border bg-background py-12 lg:py-14">
+            <div className="grid gap-8 rounded-2xl border border-border bg-card p-8 shadow-sm sm:grid-cols-3 lg:py-10">
                 <a
                     href={`tel:${CONTACT_INFO.phone}`}
                     className="group flex flex-col items-center gap-3 text-center sm:flex-row sm:text-left"

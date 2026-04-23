@@ -22,10 +22,10 @@ function HomeIndex({
         <>
             <Head title="Accueil" />
             <HeroSection />
+            <LatestBlogSection latestBlogs={latestBlogs} />
+            <NetworkVideoSection />
             <EventsSection recentEvents={recentEvents} />
             <StrategicObjectivesSection />
-            <NetworkVideoSection />
-            <LatestBlogSection latestBlogs={latestBlogs} />
             <TeamSection teamMembers={teamMembers} />
             <PartnersSection partners={partners} />
             <CallToActionSection />
