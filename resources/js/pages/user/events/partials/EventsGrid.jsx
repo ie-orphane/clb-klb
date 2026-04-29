@@ -26,7 +26,9 @@ function EventCard({ event }) {
             ? ''
             : event.image.startsWith('http')
                 ? event.image
-                : `/storage/${event.image}`;
+                : event.image.startsWith('/')
+                    ? event.image
+                    : `/storage/${event.image}`;
 
     return (
         <article className="flex flex-col overflow-hidden rounded-2xl border border-border bg-cl-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
