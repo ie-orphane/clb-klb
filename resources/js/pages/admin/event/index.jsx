@@ -27,6 +27,12 @@ export default function AdminEventIndex({ events }) {
         });
     };
 
+    const resolveImageSrc = (image) => {
+        if (!image) return '';
+        if (image.startsWith('http') || image.startsWith('/')) return image;
+        return `/storage/${image}`;
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Manage Events" />
@@ -59,7 +65,7 @@ export default function AdminEventIndex({ events }) {
                             header: 'Cover',
                             render: (event) => (
                                 <TableImage
-                                    src={event.image}
+                                    src={resolveImageSrc(event.image)}
                                     alt="Event Image"
                                     width="7rem"
                                     aspectRatio="5/4"

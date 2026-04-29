@@ -107,7 +107,7 @@ class EventController extends Controller
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images/events', 'public');
-            $validated['image'] = $imagePath;
+            $validated['image'] = '/storage/' . $imagePath;
         } else {
             unset($validated['image']);
         }
